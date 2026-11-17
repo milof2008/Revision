@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock Revision Hub: A-level quizzes, flashcards &amp; exam practice</title>
+<meta name="description" content="Free A-level revision: AQA Tudors &amp; Russia, Edexcel Economics Paper 1, Edexcel Pure Maths. Quizzes, flashcards, exam plans and exam-skill practice.">
+<meta name="theme-color" content="#4f46e5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Revision Hub">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f2ec;--card:#ffffff;--ink:#1c1b19;--mut:#75736d;--line:#e6e2d8;--acc:#4f46e5;--accs:#eef0ff;--ok:#1f9d55;--bad:#d64545;--warn:#fff6dc;--sh:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#121214;--card:#1c1c20;--ink:#f2f1ee;--mut:#9d9ba3;--line:#2e2e35;--accs:#23233a;--ok:#4ade80;--bad:#f87171;--warn:#2b2717;--sh:0 1px 2px rgba(0,0,0,.4)}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:84px}
+button{font:inherit;color:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:720px;margin:0 auto;padding:12px 14px 10px}
+.brand{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+h1{font:700 20px/1.1 Fraunces,Georgia,serif;margin:0;letter-spacing:-.01em}
+.brand small{font-size:12px;color:var(--mut)}
+.subs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.sub{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:600;transition:.15s}
+.sub .ic{font-size:20px;line-height:1}
+.sub.on{border-color:var(--acc);background:var(--accs);color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+main{padding:14px;max-width:720px;margin:0 auto}
+.hero{border-radius:18px;padding:16px;margin-bottom:12px;color:#fff;background:linear-gradient(135deg,var(--acc),color-mix(in srgb,var(--acc) 60%,#000));box-shadow:var(--sh)}
+.hero h2{font:700 22px/1.15 Fraunces,Georgia,serif;margin:0 0 4px}
+.hero p{margin:0;font-size:13px;opacity:.85}
+.stats{display:flex;gap:8px;margin-top:12px}
+.stat{flex:1;background:rgba(255,255,255,.15);border-radius:10px;padding:7px 8px;text-align:center}
+.stat b{display:block;font-size:18px}
+.stat span{font-size:11px;opacity:.85}
+.tsel{display:flex;align-items:center;gap:8px;margin:0 0 12px}
+.tsel label{font-size:12px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+select{flex:1;appearance:none;-webkit-appearance:none;border:1px solid var(--line);background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center;border-radius:12px;padding:10px 34px 10px 12px;font:inherit;font-size:15px;color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px;box-shadow:var(--sh)}
+.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
+.pill{font-size:11px;font-weight:600;border-radius:999px;padding:3px 9px;background:var(--accs);color:var(--acc)}
+.pill.g{background:var(--bg);color:var(--mut)}
+.q{font-size:18px;font-weight:600;line-height:1.4;margin-bottom:14px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:12px;margin:8px 0;transition:.12s}
+.opt:active{transform:scale(.99)}
+.opt .k{flex:none;width:24px;height:24px;border-radius:7px;background:var(--bg);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--mut)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--card))}
+.opt.ok .k{background:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--card))}
+.opt.bad .k{background:var(--bad);color:#fff}
+.exp{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--accs);font-size:15px;border-left:4px solid var(--acc)}
+.btn{border:0;background:var(--acc);color:#fff;border-radius:12px;padding:12px 18px;font-weight:600;flex:1;min-width:120px}
+.btn.ghost{background:var(--card);border:1.5px solid var(--line);color:var(--ink)}
+.btns{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:12px}
+.bar>div{height:100%;background:var(--acc);border-radius:6px;transition:width .3s}
+.flash{min-height:260px;display:flex;flex-direction:column;justify-content:center;text-align:center;cursor:pointer;user-select:none;border-top:5px solid var(--acc)}
+.flash .side{font-size:12px;color:var(--mut);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.flash .txt{font:600 21px/1.35 Fraunces,Georgia,serif}
+.flash.back .txt{font:16px/1.6 Inter,sans-serif;text-align:left}
+ul.plan{padding-left:0;margin:10px 0;list-style:none;counter-reset:p}
+ul.plan li{margin:8px 0;padding:10px 12px 10px 40px;background:var(--bg);border-radius:12px;position:relative;counter-increment:p}
+ul.plan li:before{content:counter(p);position:absolute;left:10px;top:10px;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center}
+ul.plan li.dg{background:none;padding:0}ul.plan li.dg:before{display:none}
+.lvl{background:var(--warn);border-radius:12px;padding:12px 14px;font-size:14px;margin-top:12px}
+.big{font:700 40px/1 Fraunces,Georgia,serif;margin:6px 0}
+.ring{width:120px;height:120px;margin:4px auto 10px;display:block}
+svg.dg{width:100%;max-width:380px;display:block;margin:10px auto;background:var(--bg);border-radius:12px;padding:4px}
+svg.dg text{font-size:11px;fill:var(--ink)}
+svg.dg .ax{stroke:var(--ink);stroke-width:1.5;fill:none}
+table.gt{border-collapse:separate;border-spacing:0;margin:10px auto;font-size:13px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+table.gt td,table.gt th{border-bottom:1px solid var(--line);padding:8px 9px;text-align:center}
+table.gt th{background:var(--bg)}
+.step{background:var(--bg);border-left:4px solid var(--acc);border-radius:0 12px 12px 0;padding:10px 12px;margin:8px 0}
+.hint{font-size:13px;color:var(--mut)}
+textarea{width:100%;min-height:100px;border:1.5px dashed var(--line);border-radius:12px;padding:12px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;resize:vertical}
+.rev li{margin:8px 0}
+nav.modes{position:fixed;left:0;right:0;bottom:0;z-index:6;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+nav.modes .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:2px}
+.mode{border:0;background:transparent;border-radius:12px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;font-size:11px;white-space:nowrap;font-weight:600;color:var(--mut)}
+.mode .ic{font-size:19px}
+.mode.on{background:var(--accs);color:var(--acc)}
+sup,sub{font-size:70%}
+.setc{display:block;width:100%;text-align:left;cursor:pointer}
+blockquote.ext{margin:0;padding:12px 14px;border-left:4px solid var(--acc);background:var(--bg);border-radius:0 12px 12px 0;font:16px/1.65 Fraunces,Georgia,serif}
+.prov{font-size:13px;font-style:italic;color:var(--mut);margin-bottom:8px}
+.stepc.done{opacity:.92}
+.chips{display:flex;flex-direction:column;gap:7px}
+.chipx{text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:10px 12px;font-size:15px}
+.chipx.on{border-color:var(--acc);background:var(--accs)}
+.chipx.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--card))}
+.chipx.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--card))}
+.chipx.miss{border:1.5px dashed var(--ok)}
+.model{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--accs);font-size:15px}
+.ansrow{display:flex;gap:8px}.ansrow input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;font-size:16px;background:var(--bg);color:var(--ink)}
+.hintb{margin-top:8px;padding:9px 12px;border-radius:10px;background:var(--warn);font-size:14px}.hintb.bad{background:color-mix(in srgb,var(--bad) 12%,var(--card))}
+.opt:disabled{cursor:default}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:12px;gap:3px}
+.seg button{flex:1;border:0;background:transparent;border-radius:9px;padding:8px;font-size:14px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--acc);color:#fff}
+.pill.w{background:color-mix(in srgb,var(--bad) 14%,var(--card));color:var(--bad)}
+.pill.m{background:color-mix(in srgb,var(--ok) 14%,var(--card));color:var(--ok)}
+.btn.sm{padding:8px 14px;flex:none;min-width:0;font-size:14px}
+.btn.good{background:var(--ok)}.btn.bad{background:var(--bad)}
+.btn:disabled{opacity:.45}
+.ai{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);font-size:15px}
+.ai ul{margin:4px 0;padding-left:18px}
+.sect{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:18px 0 6px}
+.wrow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.prow{padding:9px 0}.ptop{display:flex;justify-content:space-between;gap:8px;font-size:14px;font-weight:600;margin-bottom:5px}
+.pb{height:8px;border-radius:8px;background:var(--line);overflow:hidden}.pb>div{height:100%;background:var(--acc);border-radius:8px}
+.link{border:0;background:none;color:var(--acc);font-weight:600;padding:6px 0;font-size:14px}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px}.mini div{background:var(--bg);border-radius:10px;padding:8px 4px}.mini b{display:block;font-size:17px}.mini span{font-size:11px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header><div class="hwrap">
+  <div class="brand"><h1>Mock Revision Hub</h1><small id="sync"></small></div>
+  <div class="subs" id="subjects"></div>
+</div></header>
+<main><div id="hero"></div><div class="tsel" id="tsel"><label for="tp">Topic</label><select id="tp" onchange="setTopic(+this.value)"></select></div><div id="app"></div></main>
+<footer style="max-width:720px;margin:0 auto;padding:6px 18px 24px;font-size:12px;color:var(--mut);line-height:1.5">Progress is saved in your browser on this device only. Nothing is sent anywhere. Practice extracts and sources are written for revision in the style of AQA papers. They are not real documents or quotations. This is an independent revision tool, not affiliated with AQA or Pearson Edexcel. Always check with your teacher and official past papers.</footer>
+<nav class="modes"><div class="in" id="modes"></div></nav>
+
+<script>
+/* ---------- DIAGRAMS (SVG) ---------- */
+const AX='<path class="ax" d="M40 12 V212 H292"/>';
+const DG={
+ext:`<svg class="dg" viewBox="0 0 300 240">${AX}
+<text x="6" y="20">Costs/</text><text x="6" y="32">Benefits</text><text x="262" y="230">Qty</text>
+<polygon points="140.3,95 168.4,75.8 168.4,117.7" fill="#d64545" opacity=".35"/>
+<line x1="60" y1="30" x2="270" y2="200" stroke="#2f5bea" stroke-width="2"/><text x="196" y="186">D=MPB=MSB</text>
+<line x1="60" y1="190" x2="270" y2="50" stroke="#1f9d55" stroke-width="2"/><text x="258" y="62">MPC</text>
+<line x1="60" y1="150" x2="250" y2="20" stroke="#d64545" stroke-width="2"/><text x="236" y="18">MSC</text>
+<line x1="140.3" y1="95" x2="140.3" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="134" y="226">Q*</text>
+<line x1="168.4" y1="117.7" x2="168.4" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="162" y="226">Q1</text>
+<line x1="40" y1="95" x2="140.3" y2="95" stroke-dasharray="3 3" stroke="currentColor"/><text x="20" y="99">P*</text>
+<line x1="40" y1="117.7" x2="168.4" y2="117.7" stroke-dasharray="3 3" stroke="currentColor"/><text x="20" y="121">P1</text>
+<text x="176" y="100" fill="#d64545">welfare loss</text></svg>
+<p class="hint">Market produces Q1 (MPC = MPB). Social optimum is Q* (MSC = MSB). The vertical gap MSC – MPC is the external cost. The red triangle is the deadweight welfare loss from overproduction.</p>`,
+tax:`<svg class="dg" viewBox="0 0 300 240">${AX}
+<text x="12" y="20">Price</text><text x="262" y="230">Qty</text>
+<rect x="40" y="95.8" width="101.3" height="21.9" fill="#2f5bea" opacity=".3"/>
+<rect x="40" y="117.7" width="101.3" height="18.1" fill="#1f9d55" opacity=".3"/>
+<line x1="60" y1="30" x2="270" y2="200" stroke="#2f5bea" stroke-width="2"/><text x="262" y="196">D</text>
+<line x1="60" y1="190" x2="270" y2="50" stroke="#1f9d55" stroke-width="2"/><text x="262" y="62">S1</text>
+<line x1="60" y1="150" x2="270" y2="10" stroke="#d64545" stroke-width="2"/><text x="196" y="22">S2=S1+tax</text>
+<line x1="141.3" y1="95.8" x2="141.3" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="135" y="226">Q2</text>
+<line x1="168.4" y1="117.7" x2="168.4" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="162" y="226">Q1</text>
+<text x="18" y="99">P2</text><text x="18" y="121">P1</text><text x="2" y="139">P2–tax</text>
+<text x="60" y="110" font-size="10">consumer burden</text><text x="60" y="131" font-size="10">producer burden</text></svg>
+<p class="hint">A specific tax shifts supply vertically up by the tax. Price rises P1→P2 (less than the tax), quantity falls Q1→Q2. Tax revenue = whole shaded rectangle. Blue = consumers' share, green = producers' share. The more price-inelastic demand is, the bigger the consumer share.</p>`,
+mono:`<svg class="dg" viewBox="0 0 300 240">${AX}
+<text x="12" y="20">£</text><text x="262" y="230">Qty</text>
+<rect x="40" y="87.2" width="84" height="35.8" fill="#1f9d55" opacity=".3"/>
+<line x1="50" y1="30" x2="270" y2="200" stroke="#2f5bea" stroke-width="2"/><text x="250" y="196">AR=D</text>
+<line x1="50" y1="30" x2="160" y2="200" stroke="#8a5cf6" stroke-width="2"/><text x="150" y="208">MR</text>
+<line x1="60" y1="190" x2="270" y2="40" stroke="#d64545" stroke-width="2"/><text x="262" y="38">MC</text>
+<path d="M60 70 Q150 200 270 20" fill="none" stroke="#e08a00" stroke-width="2"/><text x="64" y="64">AC</text>
+<line x1="124" y1="87.2" x2="124" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="118" y="226">Qm</text>
+<text x="20" y="91">Pm</text><text x="18" y="127">AC</text>
+<text x="56" y="112" font-size="10">supernormal profit</text></svg>
+<p class="hint">Profit max where MC = MR → output Qm. Price read off AR at Qm → Pm. Supernormal profit = (AR – AC) × Qm, the green box. P > MC, so it is allocatively inefficient. Output is not at minimum AC, so it is productively inefficient too.</p>`,
+monop:`<svg class="dg" viewBox="0 0 300 240">${AX}
+<text x="10" y="20">Wage</text><text x="240" y="230">Employment</text>
+<line x1="60" y1="40" x2="270" y2="190" stroke="#2f5bea" stroke-width="2"/><text x="244" y="186">MRP=D</text>
+<line x1="60" y1="190" x2="270" y2="80" stroke="#1f9d55" stroke-width="2"/><text x="232" y="92">ACL=S</text>
+<line x1="60" y1="190" x2="200" y2="30" stroke="#d64545" stroke-width="2"/><text x="204" y="32">MCL</text>
+<line x1="140.8" y1="97.7" x2="140.8" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="134" y="226">Qm</text>
+<line x1="181.2" y1="126.6" x2="181.2" y2="212" stroke-dasharray="3 3" stroke="currentColor"/><text x="175" y="226">Qc</text>
+<line x1="40" y1="147.7" x2="140.8" y2="147.7" stroke-dasharray="3 3" stroke="currentColor"/><text x="16" y="151">Wm</text>
+<line x1="40" y1="126.6" x2="181.2" y2="126.6" stroke-dasharray="3 3" stroke="currentColor"/><text x="16" y="130">Wc</text>
+<circle cx="140.8" cy="97.7" r="3"/><circle cx="140.8" cy="147.7" r="3"/></svg>
+<p class="hint">A monopsony employer hires where MCL = MRP (Qm), then pays only the wage on the supply (ACL) curve at Qm: Wm. Compared with a competitive market (Wc, Qc), there are lower wages and lower employment. Same logic for a monopsony buyer of goods, e.g. supermarkets and farmers.</p>`,
+game:`<table class="gt"><tr><th></th><th>B: High price</th><th>B: Low price</th></tr>
+<tr><th>A: High price</th><td>A £10m, B £10m</td><td>A £2m, B £14m</td></tr>
+<tr><th>A: Low price</th><td>A £14m, B £2m</td><td>A £5m, B £5m</td></tr></table>
+<p class="hint">Dominant strategy for each firm = low price (it's better whatever the rival does). Nash equilibrium = both low (£5m each), even though both high (£10m each) is better. That's the prisoner's dilemma, and it's why firms are tempted to collude. It's also why collusion is unstable: each firm has an incentive to cheat.</p>`
+};
+
+/* ---------- DATA ---------- */
+const S={
+tudors:{name:"Tudors (H7–Mary)",topics:["Government & control","Crown finance","Rebellions","Religion under Henry VIII"],
+mcq:[
+{t:0,q:"Why did Henry VII date his reign from 21 August 1485, the day before Bosworth?",o:["To align with his coronation","So those who fought for Richard III could be attainted as traitors","Because Parliament insisted","To claim inheritance from Edward IV"],a:1,e:"Backdating meant Richard's supporters were technically traitors, which allowed attainders and the confiscation of their lands."},
+{t:0,q:"What was the Council Learned in the Law mainly used for?",o:["Hearing appeals from Rome","Enforcing the king's feudal and financial rights, especially bonds and recognisances","Running the navy","Governing Wales"],a:1,e:"Led by Empson and Dudley, it chased debts and feudal dues. It was unpopular, and Henry VIII executed both men in 1510."},
+{t:0,q:"Around how many of the 62 noble families were under bonds or recognisances at some point under Henry VII?",o:["About 10","About 23","About 46","All 62"],a:2,e:"Roughly 46 of 62 peerage families were under some financial threat. This is key evidence that he controlled the nobility through money rather than force."},
+{t:0,q:"Which minister became Lord Chancellor in 1515 and dominated government until 1529?",o:["Thomas Cromwell","Thomas Wolsey","Thomas More","Richard Fox"],a:1,e:"Wolsey: Lord Chancellor 1515, cardinal 1515, papal legate 1518. He fell in 1529 over the failure to secure the annulment."},
+{t:0,q:"Which historian argued Cromwell created a 'Tudor revolution in government' in the 1530s?",o:["J.J. Scarisbrick","G.R. Elton","Christopher Haigh","Eamon Duffy"],a:1,e:"Elton (1953): a shift from household to bureaucratic, national government, e.g. a formal Privy Council and new financial courts. Critics such as Starkey and Guy say the change was more gradual."},
+{t:0,q:"What were the Eltham Ordinances (1526)?",o:["Laws against retaining","Wolsey's reform of the Privy Chamber to reduce the influence of the king's favourites","A treaty with France","Religious injunctions"],a:1,e:"Wolsey cut the Privy Chamber's size and influence, partly to limit rivals' access to Henry. It shows faction and court politics at work."},
+{t:0,q:"Who led conciliar government after Somerset's fall in 1549?",o:["Stephen Gardiner","John Dudley (Earl of Warwick, later Duke of Northumberland)","William Cecil","Reginald Pole"],a:1,e:"Northumberland ruled as Lord President of the Council. He restored council-based government and tackled finance, e.g. ending debasement in 1551."},
+{t:1,q:"What was the Act of Resumption (1486) used for?",o:["To raise customs duties","To take back crown lands granted away since 1455","To dissolve monasteries","To tax the clergy"],a:1,e:"It recovered crown land. Land revenue rose from about £12,000 a year to about £42,000 by the end of the reign."},
+{t:1,q:"Why did Henry VII move finance from the Exchequer to the Chamber?",o:["The Exchequer had been abolished","The Chamber was faster, more flexible and under his personal control","Parliament demanded it","To please Wolsey"],a:1,e:"Chamber finance let Henry check accounts personally (he signed them). It was more efficient than the slow, formal Exchequer."},
+{t:1,q:"What did the Treaty of Étaples (1492) give Henry VII?",o:["Calais","A French pension of about £5,000 a year","Control of Brittany","A Spanish marriage"],a:1,e:"France paid Henry to withdraw, a profitable 'war' that boosted ordinary revenue."},
+{t:1,q:"Why did the Amicable Grant (1525) fail?",o:["Parliament rejected it","Widespread refusal and unrest, especially in Suffolk (Lavenham), forced Henry to abandon it","The pope forbade it","It was paid in full"],a:1,e:"It was a non-parliamentary tax demanded soon after the 1523 subsidy. Resistance made Henry drop it and blame Wolsey."},
+{t:1,q:"Which body managed the income from the dissolution of the monasteries?",o:["Court of Wards","Court of Augmentations (1536)","Council of the North","Star Chamber"],a:1,e:"Created under Cromwell in 1536. Monastic land briefly doubled crown income, but most was sold off in the 1540s to pay for war."},
+{t:1,q:"What was the Great Debasement (from 1544)?",o:["Reducing the silver content of coins to raise money","A tax on wool","Selling titles","Cutting the royal household"],a:0,e:"It raised short-term cash for the wars with France and Scotland, but it fuelled inflation. Northumberland ended it in 1551."},
+{t:1,q:"Which Marian reform greatly increased customs revenue?",o:["The Book of Rates 1558","The Act of Six Articles","The Statute of Uses","The Valor Ecclesiasticus"],a:0,e:"The revised Book of Rates (1558) raised customs income sharply. It's evidence that Mary's government was financially competent."},
+{t:2,q:"Lambert Simnel's rebellion was defeated at which battle in 1487?",o:["Bosworth","Stoke","Blackheath","Dussindale"],a:1,e:"Battle of Stoke, June 1487. It was backed by Margaret of Burgundy and the Earl of Lincoln. Henry later employed Simnel in his kitchens."},
+{t:2,q:"Why was Perkin Warbeck such a long-running threat (1491–99)?",o:["He had the support of Parliament","Foreign rulers (Burgundy, Scotland, France) backed him to put pressure on Henry","He was the real Richard of York","The Church supported him"],a:1,e:"His foreign backing made him a diplomatic problem as well as a dynastic one. He was executed in 1499 alongside the Earl of Warwick."},
+{t:2,q:"What triggered the Cornish Rebellion of 1497?",o:["Religious change","Taxation to pay for war against Scotland","Enclosure","The succession"],a:1,e:"Cornish rebels marched to Blackheath and were defeated in June 1497. It shows the limits of what people would pay in tax."},
+{t:2,q:"Who led the Pilgrimage of Grace (1536)?",o:["Robert Kett","Robert Aske","Thomas Wyatt","Thomas Howard"],a:1,e:"A lawyer, Aske led up to around 30,000–40,000 rebels. Its causes were religious (monasteries), economic and political (anti-Cromwell)."},
+{t:2,q:"What gave Henry VIII the excuse to punish the Pilgrims after promising a pardon?",o:["Bigod's Rising, January 1537","The Lincolnshire Rising","Wyatt's Rebellion","Kett's Rebellion"],a:0,e:"After the new rising, about 178 people were executed, including Aske."},
+{t:2,q:"Kett's Rebellion (1549) was mainly about…",o:["The Prayer Book","Enclosure and abuse by local gentry","The Spanish marriage","Taxation for war"],a:1,e:"It was based at Mousehold Heath near Norwich. Rebels even claimed loyalty to Somerset's reform agenda. Warwick crushed it at Dussindale."},
+{t:2,q:"What was the main grievance of the Western Rebellion (1549)?",o:["The new English Book of Common Prayer","Enclosure","The Amicable Grant","Mary's marriage"],a:0,e:"Cornish and Devon rebels objected to the English service ('like a Christmas game'). It was mainly religious."},
+{t:2,q:"Wyatt's Rebellion (1554) opposed…",o:["Mary's marriage to Philip of Spain","Edward VI's Prayer Book","The dissolution","Debasement"],a:0,e:"A gentry-led rising with xenophobic and Protestant elements. It reached London but failed. Lady Jane Grey was executed afterwards."},
+{t:3,q:"Which Act (1533) stopped appeals to Rome, letting Cranmer annul Henry's first marriage?",o:["Act of Supremacy","Act in Restraint of Appeals","Act of Six Articles","Treason Act"],a:1,e:"Drafted by Cromwell, it declared England an 'empire', self-governing in law. It's the legal key to the break with Rome."},
+{t:3,q:"What did the 1534 Act of Supremacy declare?",o:["The pope as head of the English Church","Henry as Supreme Head of the Church of England","Protestant doctrine","The dissolution of the monasteries"],a:1,e:"Henry became Supreme Head. Refusing to accept it led to the executions of More and Fisher in 1535."},
+{t:3,q:"Which 1539 statute confirmed Catholic doctrine such as transubstantiation and clerical celibacy?",o:["Ten Articles","Act of Six Articles","Injunctions","King's Book"],a:1,e:"The 'whip with six strings' shows Henry remained doctrinally conservative after breaking with Rome."},
+{t:3,q:"Which document (1536) leaned slightly Protestant, mentioning only three sacraments?",o:["Ten Articles","King's Book","Six Articles","Bishops' Book 1543"],a:0,e:"The Ten Articles named baptism, penance and the Eucharist. It showed Cromwell and Cranmer's reformist influence."},
+{t:3,q:"The 1538 Injunctions ordered…",o:["An English Bible in every parish church","The burning of heretics","The restoration of the monasteries","Latin-only services"],a:0,e:"This led to the Great Bible (1539). It was reformist, but restricted again by the Act for the Advancement of True Religion (1543)."},
+{t:3,q:"What was the Valor Ecclesiasticus (1535)?",o:["A survey of church wealth","A heresy law","A Protestant creed","A treaty with Rome"],a:0,e:"Cromwell's survey of Church income paved the way for dissolving the smaller monasteries (worth under £200 a year) in 1536."}
+],
+cards:[
+{t:0,f:"Henry VII's methods of controlling the nobility",b:"Bonds and recognisances, attainders (138 passed, 46 reversed), the 1504 Statute against retaining, the Council Learned, rewarding loyalty with the Order of the Garter rather than land, few new peers"},
+{t:0,f:"Regional councils",b:"Council of the North (governed the troublesome north) and Council of Wales and the Marches. They extended royal control to the peripheries."},
+{t:0,f:"Justices of the Peace (JPs)",b:"Unpaid local gentry. Henry VII increased their duties, so the Crown relied on them for local law and order. That's a sign of cooperation, not just control."},
+{t:0,f:"Wolsey: domestic achievements vs failures",b:"✓ Star Chamber used for 'impartial justice', Eltham Ordinances, the 1523 subsidy. ✗ Amicable Grant failed, enclosure inquiries had limited impact, he alienated the nobility, and he failed to get the annulment, which led to his fall in 1529."},
+{t:0,f:"Cromwell's key reforms (1532–40)",b:"Break with Rome legislation, Privy Council formalised, Court of Augmentations, Valor Ecclesiasticus, dissolution, Treason Act 1534, Act of Union with Wales 1536. Executed in 1540 after the Cleves marriage failed."},
+{t:0,f:"Mid-Tudor Crisis debate",b:"Older view: weak rulers, rebellions and debasement meant crisis. Revisionists (Loades, Hoak): government kept functioning, Northumberland and Mary's ministers were competent, and the Book of Rates and Exchequer reforms helped. 'Crisis' is overstated."},
+{t:1,f:"Henry VII's sources of income",b:"Ordinary: crown lands, customs (~£33k→£40k), feudal dues (wardship, marriage, relief), justice and fines. Extraordinary: parliamentary taxation, clerical grants, French pension, benevolences."},
+{t:1,f:"Henry VIII's finances in brief",b:"Inherited a surplus but spent it on wars from 1512. Wolsey's subsidy 1523, Amicable Grant failure 1525. Dissolution windfall 1536–40, then 1540s wars cost ~£2m, paid for by land sales and debasement."},
+{t:1,f:"Edward VI & Mary: finance",b:"Somerset: debasement continued, wars with Scotland, 1549 crisis. Northumberland ended debasement in 1551 and cut costs. Mary: Book of Rates 1558 raised customs, Exchequer reformed under Winchester, but the loss of Calais in 1558 was costly."},
+{t:2,f:"Pilgrimage of Grace: causes",b:"Religious: dissolution of the monasteries, rumours about parish churches. Political: hatred of Cromwell and 'low-born' advisers. Economic: the 1534 subsidy, poor harvests, the Statute of Uses angering gentry."},
+{t:2,f:"Why did most Tudor rebellions fail?",b:"Lack of noble leadership, loyalty to the monarch ('bad advisers' rhetoric), poor coordination, royal propaganda and negotiation (false promises), Crown use of local nobles (e.g. Norfolk) and foreign mercenaries in 1549."},
+{t:2,f:"Rebellions timeline",b:"1486 Lovell, 1487 Simnel (Stoke), 1489 Yorkshire tax, 1491–99 Warbeck, 1497 Cornish, 1525 Amicable Grant, 1536 Pilgrimage of Grace, 1549 Western + Kett, 1553 Lady Jane Grey coup, 1554 Wyatt"},
+{t:3,f:"Break with Rome legislation (in order)",b:"1529 Reformation Parliament, 1532 Supplication against the Ordinaries & Submission of the Clergy, 1532 Annates, 1533 Restraint of Appeals, 1534 Act of Supremacy, 1534 Treason Act, 1536 & 1539 dissolution"},
+{t:3,f:"Henry VIII's religious 'see-saw'",b:"Reformist: Ten Articles 1536, Injunctions 1538, Great Bible 1539. Conservative: Six Articles 1539, King's Book 1543, Act for the Advancement of True Religion 1543. Overall: 'Catholicism without the pope'."},
+{t:3,f:"Why did Henry break with Rome?",b:"Need for a male heir and the annulment (Leviticus argument), Anne Boleyn's pregnancy, desire for power (imperial kingship), church wealth, the influence of Cromwell, Cranmer and Boleyn's evangelical circle."},
+{t:3,f:"Key figures: religion",b:"Reformers: Cromwell, Cranmer, Anne Boleyn. Conservatives: Gardiner, Norfolk, More, Fisher. Faction shaped policy swings."}
+],
+exam:[
+{t:0,m:25,q:"'Henry VII's control over the nobility was based primarily on fear.' Assess the validity of this view.",plan:["<b>Intro:</b> Agree to an extent. Fear of financial ruin was central, but it sat alongside reward, patronage and cooperation.","<b>Fear, financial:</b> bonds and recognisances (46 of 62 families), the Council Learned, Empson and Dudley. Bergavenny was fined £70,000 for illegal retaining in 1507.","<b>Fear, legal:</b> attainders (138, but 46 reversed, so they were used as a lever, not just punishment). The 1504 Statute of Liveries licensed retaining.","<b>Reward / counter-argument:</b> Garter knighthoods, offices, trusted nobles like Oxford and Jasper Tudor. Few new peers, so the Crown didn't have to share power.","<b>Cooperation:</b> he relied on nobles and JPs in the localities and in the regional councils, so control needed their goodwill.","<b>Judgement:</b> fear was the dominant tool <i>after 1502</i> (death of Arthur, insecurity). Earlier rule was more balanced, so the argument changes over time."]},
+{t:1,m:25,q:"'Crown finances were in a worse state in 1558 than in 1509.' Assess the validity of this view.",plan:["<b>Intro:</b> In 1509 Henry VII left a solvent Crown. 1558 looks worse on debt but stronger structurally.","<b>Agree:</b> Henry VIII's wars (~£2m in the 1540s), the monastic lands sold off, debasement and inflation, Mary's French war and the loss of Calais. Debt was over £200k by 1558.","<b>Disagree:</b> the Book of Rates 1558 transformed customs revenue, the Exchequer was reformed (Winchester), and Northumberland ended debasement in 1551.","<b>Nuance:</b> the 1509 strength rested partly on unpopular extortion (Empson and Dudley). The 1558 system was more modern and bureaucratic.","<b>Judgement:</b> weaker short-term position in 1558, but the foundations for Elizabeth's recovery were laid."]},
+{t:2,m:25,q:"'The Pilgrimage of Grace was primarily a religious rebellion.' Assess the validity of this view.",plan:["<b>Religious:</b> name, banner of the Five Wounds of Christ, oath, monasteries restored by rebels, the Pontefract Articles' demands on heresy and the papacy.","<b>Political:</b> hostility to Cromwell and 'villein blood' councillors, conservative nobles (Darcy, Hussey), faction after Anne Boleyn's fall.","<b>Economic:</b> 1534 subsidy fears, Statute of Uses, harvests, entry fines in the north (Cumberland and Westmorland).","<b>Regional variation:</b> Lincolnshire was more about tax and clergy fears, Yorkshire more religious and political.","<b>Judgement:</b> religion was the unifying banner. Specific grievances differed, so it was a multi-causal rising expressed in religious language."]},
+{t:2,m:25,q:"'Tudor rebellions between 1485 and 1554 failed mainly because of weak leadership.' Assess the validity of this view.",plan:["<b>Leadership weak:</b> Simnel and Warbeck were impostors with no domestic noble support. Kett and Aske were not nobles.","<b>Other reasons:</b> loyalty to the monarch (rebels blamed advisers, not kings), royal military response (Stoke, Blackheath, Dussindale, foreign mercenaries in 1549).","<b>Crown tactics:</b> negotiation and false promises (Norfolk in 1536), propaganda, local nobles mobilising for the Crown.","<b>Counter-example:</b> the Amicable Grant <i>succeeded</i>, as did Mary's 1553 bid for the throne. So success needed broad support plus a legitimate cause.","<b>Judgement:</b> leadership mattered, but the deeper reason was lack of elite backing and the strength of loyalty to the dynasty."]},
+{t:3,m:30,q:"Interpretations (Q1 style): Using your understanding of the historical context, assess how convincing the arguments in three extracts are in relation to Henry VIII's religious changes 1529–47.",plan:["<b>Method for each extract:</b> 1) identify the overall argument, 2) support it with your own knowledge, 3) challenge it with your own knowledge, 4) give a mini-judgement on how convincing it is.","<b>Likely arguments to expect:</b> 'Henry was driven by the annulment' vs 'by power and wealth' vs 'Henry stayed Catholic in doctrine'.","<b>Evidence bank:</b> Restraint of Appeals 1533, Supremacy 1534, Ten Articles 1536, Injunctions 1538, Six Articles 1539, King's Book 1543, dissolution.","<b>Don't:</b> compare extracts to each other or discuss provenance. AQA marks <i>content against context</i> only.","<b>Ending:</b> no overall comparison needed, but a short conclusion stating which extract is most convincing is fine."]}
+]},
+
+russia:{name:"Russia (to Stakhanovites)",topics:["1917 Revolutions","Consolidation & Civil War","Lenin's economics","Power struggle","Stalin's economy"],
+mcq:[
+{t:0,q:"What sparked the February Revolution in Petrograd?",o:["Lenin's return","Bread shortages, strikes and International Women's Day protests","The Kornilov affair","Defeat at Tannenberg"],a:1,e:"Strikes spread, then the garrison mutinied and joined the crowds. Nicholas II abdicated on 2 March (OS) 1917."},
+{t:0,q:"What was 'Dual Power'?",o:["Lenin and Trotsky sharing power","The Provisional Government sharing power with the Petrograd Soviet","Tsar and Duma","Whites and Reds"],a:1,e:"The Soviet's Order No. 1 meant the army obeyed the Soviet first. That fatally undermined the Provisional Government."},
+{t:0,q:"Which slogans were in Lenin's April Theses?",o:["'Land and Liberty'","'Peace, Bread, Land' and 'All power to the Soviets'","'Workers of the world unite'","'Socialism in one country'"],a:1,e:"They rejected cooperation with the Provisional Government and pushed for a second revolution."},
+{t:0,q:"How did the Kornilov Affair (August 1917) help the Bolsheviks?",o:["It killed Kerensky","Kerensky armed the Red Guards and freed Bolsheviks to defend Petrograd","It ended the war","It gave them Moscow"],a:1,e:"The Bolsheviks looked like defenders of the revolution. They won majorities in the Petrograd and Moscow Soviets by September."},
+{t:0,q:"Who organised the October Revolution through the Military Revolutionary Committee?",o:["Stalin","Trotsky","Kamenev","Zinoviev"],a:1,e:"Kamenev and Zinoviev actually opposed the timing. Trotsky's MRC seized key points on 24–25 October."},
+{t:1,q:"Why did Lenin close the Constituent Assembly in January 1918?",o:["The Bolsheviks won a majority","The SRs won far more seats than the Bolsheviks","The Tsar was restored","It was bankrupt"],a:1,e:"SRs won about 370–410 seats, Bolsheviks about 175. It was dissolved after one day: a key moment in establishing one-party rule."},
+{t:1,q:"What did the Treaty of Brest-Litovsk (March 1918) cost Russia?",o:["Only Finland","About a third of its population and agricultural land, and over half its industry","Nothing territorially","Moscow"],a:1,e:"A humiliating peace. It angered the Left SRs and nationalists and was one cause of the Civil War."},
+{t:1,q:"Which organisation, set up in December 1917, led the Red Terror?",o:["NKVD","Cheka (under Dzerzhinsky)","Gosplan","Komsomol"],a:1,e:"The Cheka shot thousands and ran camps. Terror was central to Bolshevik consolidation."},
+{t:1,q:"Which was NOT a reason for Red victory in the Civil War?",o:["Control of the central rail network and industrial heartland","Trotsky's leadership of the Red Army","United White command with a clear shared aim","War Communism supplying the army"],a:2,e:"The Whites were divided (Kolchak, Denikin, Yudenich), geographically spread out and lacked popular support. Disunity was a key weakness."},
+{t:2,q:"Which feature belonged to War Communism (1918–21)?",o:["Tax in kind","Forced grain requisitioning","Nepmen","Private small businesses legal"],a:1,e:"Requisitioning, nationalisation, a ban on private trade and labour discipline. It led to famine (about 5 million deaths in 1921) and revolt."},
+{t:2,q:"What event in March 1921 convinced Lenin to introduce the NEP?",o:["The Kronstadt Mutiny","Lenin's stroke","Brest-Litovsk","The Shakhty trial"],a:0,e:"Kronstadt sailors, once 'pride of the revolution', rebelled. Lenin called it the flash that 'lit up reality'."},
+{t:2,q:"What replaced requisitioning under the NEP?",o:["Collectivisation","A tax in kind, letting peasants sell their surplus","Five-Year Plans","Rationing"],a:1,e:"It also legalised small private businesses and trade. Heavy industry, banks and foreign trade stayed state-owned (the 'commanding heights')."},
+{t:2,q:"What was banned at the 10th Party Congress (1921) alongside the NEP?",o:["Private trade","Factions within the party","The Cheka","Elections to soviets"],a:1,e:"Economic relaxation came with political tightening. The ban on factions was later used by Stalin against his rivals."},
+{t:2,q:"What was the 'scissors crisis' (1923)?",o:["Industrial prices rose while agricultural prices fell","A Red Army mutiny","A party split","A grain surplus"],a:0,e:"Peasants stopped selling grain. It showed the NEP's weaknesses and fed the industrialisation debate."},
+{t:3,q:"Which post gave Stalin control over party appointments from 1922?",o:["Commissar for War","General Secretary","Chairman of Sovnarkom","Head of the Comintern"],a:1,e:"He controlled who joined and was promoted: patronage power. The 'Lenin enrolment' brought in loyal new members."},
+{t:3,q:"What did Lenin's Testament say about Stalin?",o:["He should succeed Lenin","He was 'too rude' and should be removed as General Secretary","He was the best theorist","Nothing"],a:1,e:"It was suppressed at the 1924 Central Committee, partly thanks to Zinoviev and Kamenev. A huge stroke of luck for Stalin."},
+{t:3,q:"'Socialism in one country' contrasted with which Trotsky idea?",o:["NEP","Permanent revolution","War Communism","Collective leadership"],a:1,e:"Stalin's idea was patriotic and appealed to members tired of waiting for world revolution."},
+{t:3,q:"In what order were Stalin's rivals defeated?",o:["Bukharin, Trotsky, Zinoviev","Trotsky, then the United Opposition (Zinoviev/Kamenev), then the Right (Bukharin)","Kamenev, Bukharin, Trotsky","All in 1924"],a:1,e:"He sided with the Right against the Left, then turned on the Right in 1928–29. Trotsky was expelled in 1927 and deported in 1929."},
+{t:4,q:"What was the main aim of the First Five-Year Plan (1928–32)?",o:["Consumer goods","Rapid growth of heavy industry: coal, steel, oil, electricity","Agricultural exports only","Military withdrawal"],a:1,e:"Run by Gosplan with huge targets, e.g. Magnitogorsk. Declared complete in 4 years."},
+{t:4,q:"What did Alexei Stakhanov achieve in August 1935?",o:["Built the Dnieper dam","Mined 102 tonnes of coal in under 6 hours, about 14 times his quota","Led collectivisation in Ukraine","Wrote the Second Plan"],a:1,e:"It was staged propaganda (he had helpers). The Stakhanovite movement pushed workers to exceed norms, which raised targets and caused resentment."},
+{t:4,q:"What was a kolkhoz?",o:["A state factory","A collective farm","A labour camp","A trade union"],a:1,e:"Peasants pooled land and sold produce to the state at low prices. A sovkhoz was a state farm with paid workers."},
+{t:4,q:"Why did Stalin publish 'Dizzy with Success' (March 1930)?",o:["To celebrate the First Plan","To temporarily slow collectivisation after chaos and peasant resistance","To attack Trotsky","To launch the Purges"],a:1,e:"Collectivisation dropped from about 58% to about 24%, then was pushed again. By 1936 about 90% of farms were collectivised."},
+{t:4,q:"Which was a consequence of collectivisation?",o:["A rise in livestock numbers","Famine of 1932–33 with millions of deaths, especially in Ukraine","Grain exports stopped","The kulaks became richer"],a:1,e:"Livestock fell by about half as peasants slaughtered animals. Dekulakisation deported millions."},
+{t:4,q:"What was the Shakhty Trial (1928)?",o:["A show trial of 'bourgeois specialists' accused of sabotage","Trotsky's trial","A peasant uprising","A strike"],a:0,e:"It signalled the 'Great Turn': blaming wreckers for failures and pushing class war into industry."}
+],
+cards:[
+{t:0,f:"Why did the Provisional Government fail?",b:"Stayed in WWI (June offensive), delayed land reform, waited for the Constituent Assembly, Dual Power / Order No. 1, July Days, Kornilov affair arming the Bolsheviks, economic collapse"},
+{t:0,f:"Why did the Bolsheviks succeed in October 1917?",b:"Lenin's leadership and timing, Trotsky's organisation (MRC, Red Guards), the PG's weakness, popular slogans, Soviet majorities by September, little resistance"},
+{t:1,f:"Key consolidation measures 1917–18",b:"Sovnarkom, decrees on land and peace, Cheka (Dec 1917), Constituent Assembly closed (Jan 1918), Brest-Litovsk (Mar 1918), 1918 constitution, ban on Kadets, terror after the 1918 assassination attempt on Lenin"},
+{t:1,f:"Reasons for Red victory",b:"Geography (central rail, industry, population), unity and discipline, Trotsky, the Cheka, War Communism, propaganda. Whites divided, foreign backing used as propaganda against them, Whites unpopular with peasants (feared return of landlords)."},
+{t:2,f:"War Communism: features & effects",b:"Features: requisitioning, nationalisation, banned private trade, rationing, labour discipline. Effects: famine 1921, peasant revolts (Tambov), Kronstadt, black markets, industrial output collapsed."},
+{t:2,f:"NEP: successes & problems",b:"✓ Grain and industrial output back to roughly 1913 levels by 1926, peace with the peasants. ✗ Nepmen and kulaks resented, scissors crisis 1923, ideological retreat ('step back'), divided the party"},
+{t:3,f:"Stalin's advantages in the power struggle",b:"General Secretary (patronage), Lenin enrolment, Testament suppressed, Lenin's funeral (Trotsky absent), ban on factions, 'socialism in one country', rivals underestimated him, tactical alliances"},
+{t:3,f:"Rivals' weaknesses",b:"Trotsky: arrogant, ex-Menshevik, feared as 'Bonaparte', ill at key moments. Zinoviev/Kamenev: opposed October, switched sides. Bukharin: tied to the failing NEP, outmanoeuvred."},
+{t:4,f:"Why collectivise?",b:"Grain procurement crisis 1927–28, feed the towns and workers, export grain to fund industry, ideology (end private farming), crush the kulaks, free labour for factories"},
+{t:4,f:"Five-Year Plans: key stats",b:"Coal ~35m t (1927) → 64m (1932) → 128m (1937). Steel ~4m t → 6m → 18m. Show projects: Magnitogorsk, Dnieper dam, Moscow metro. Costs: low living standards, harsh labour laws, gulag labour."},
+{t:4,f:"Stakhanovite movement (1935)",b:"Model worker propaganda. Workers who exceeded norms got bonuses and status. Effect: norms raised for everyone, resentment, some sabotage of Stakhanovites, but productivity gains in places."}
+],
+exam:[
+{t:0,m:25,q:"'The Provisional Government's decision to continue the war was the main reason for its downfall in 1917.' Assess the validity of this view.",plan:["<b>War:</b> June offensive failure, desertions, inflation and supply shortages, the July Days protests.","<b>Dual Power:</b> Order No. 1 meant the PG never controlled the army or Petrograd.","<b>Land & delays:</b> waiting for the Constituent Assembly alienated the peasants, who seized land anyway.","<b>Kornilov:</b> discredited Kerensky with the right <i>and</i> armed the Bolsheviks.","<b>Bolshevik strength:</b> Lenin's April Theses, MRC organisation.","<b>Judgement:</b> the war was the root cause linking the others (economy, army, Kornilov), but Kornilov was the decisive trigger."]},
+{t:1,m:25,q:"'The Bolsheviks won the Civil War because of the weaknesses of their opponents.' Assess the validity of this view.",plan:["<b>White weaknesses:</b> divided leaders, no common aim, spread around the edges, landlord image, limited foreign help.","<b>Red strengths:</b> geography and railways, Trotsky (conscription, ex-Tsarist officers with commissars), War Communism, the Cheka, propaganda.","<b>Link:</b> Red centralisation versus White fragmentation are two sides of the same coin.","<b>Judgement:</b> White weakness was necessary, but Red organisation turned it into victory."]},
+{t:3,m:25,q:"'Stalin's position as General Secretary was the main reason he became leader by 1929.' Assess the validity of this view.",plan:["<b>General Secretary:</b> appointments, the Lenin enrolment, control of congress delegates.","<b>Rivals' mistakes:</b> Testament suppressed, Trotsky's arrogance and absence from Lenin's funeral, Zinoviev/Kamenev switching sides, Bukharin outmanoeuvred.","<b>Ideas:</b> 'socialism in one country' was popular. The industrialisation debate let him change sides.","<b>Structure:</b> the ban on factions made opposition illegal.","<b>Judgement:</b> his post gave him the means, but his rivals' errors gave him the opportunity."]},
+{t:4,m:25,q:"'Collectivisation was a disaster for the Soviet Union.' Assess the validity of this view (to 1935).",plan:["<b>Disaster:</b> famine 1932–33, livestock halved, dekulakisation, grain output fell, peasant resistance.","<b>Success for Stalin's aims:</b> state control of grain, procurements up, exports funded industry, labour released to the towns, kulaks eliminated.","<b>Link to the Five-Year Plans:</b> it fed industrialisation (Magnitogorsk, Stakhanovites).","<b>Judgement:</b> a human and agricultural disaster, but politically and industrially it achieved what Stalin wanted. Define 'disaster' for whom."]},
+{t:2,m:25,q:"Source question technique (Q1): With reference to the sources and your understanding of the historical context, assess the value of these three sources to an historian studying the NEP.",plan:["<b>For each source:</b> provenance (author, date, audience, purpose), tone and emphasis, content checked against your own knowledge.","<b>Value AND limitations</b> for that specific enquiry: always link back to 'the NEP'.","<b>Context bank:</b> Kronstadt, 10th Party Congress, tax in kind, Nepmen, scissors crisis, Bukharin vs the Left.","<b>No need</b> to compare or rank the sources unless asked. Assess each one fully.","<b>Timing:</b> roughly 20 minutes per source."]}
+]},
+
+econ:{name:"Economics Paper 1",topics:["Positive/normative & resources","PES & price mechanism","Market failure & externalities","Tax & gov intervention","Gov failure","Business growth","Oligopoly & game theory","Monopoly & monopsony"],
+mcq:[
+{t:0,q:"Which is a normative statement?",o:["A minimum wage rise of 5% will reduce employment by 2%","The government should raise the minimum wage","Inflation was 3% last year","Higher taxes reduce demand"],a:1,e:"Normative = value judgement ('should', 'ought', 'fair'). Positive = testable claims, even if they turn out false."},
+{t:0,q:"Which is a positive statement?",o:["Pollution is the most important issue","Taxing sugar is unfair on the poor","Raising petrol duty by 10p will reduce fuel consumption","Wealth should be redistributed"],a:2,e:"It can be tested with data, even though it may be wrong. Normative statements can't be proved."},
+{t:0,q:"Which is a non-renewable resource?",o:["Solar energy","Timber from managed forests","Natural gas","Wind"],a:2,e:"Non-renewable = finite, can't be replenished in a human time frame (oil, gas, coal). Renewable = can be replenished (but can still be over-exploited, e.g. fish stocks)."},
+{t:1,q:"Which makes supply more price elastic?",o:["Long production times","Large spare capacity and high stock levels","Perishable goods","Very short time period"],a:1,e:"Factors in PES: spare capacity, stocks, time period, factor mobility, ease of entry, production lag."},
+{t:1,q:"Why is the supply of agricultural products often price inelastic in the short run?",o:["Farmers don't care about price","Long growing times mean output can't be changed quickly","Demand is elastic","Government fixes it"],a:1,e:"Production lag. That's why weather shocks cause big price swings in food markets."},
+{t:1,q:"Price rises 10% and quantity supplied rises 5%. PES =",o:["2","0.5","–0.5","1.5"],a:1,e:"PES = %ΔQs ÷ %ΔP = 5 ÷ 10 = 0.5, which is inelastic. PES is (almost always) positive."},
+{t:1,q:"Which is a function of the price mechanism?",o:["Rationing, signalling and incentive","Redistribution, taxation and regulation","Planning, directing and controlling","Saving, investing and lending"],a:0,e:"Rationing: higher price limits demand. Signalling: price shows where resources are wanted. Incentive: higher price encourages more supply."},
+{t:1,q:"A frost destroys much of Brazil's coffee crop. In the global coffee market…",o:["Demand shifts left, price falls","Supply shifts left, price rises, quantity falls","Supply shifts right, price falls","No change"],a:1,e:"A classic global-market example of the price mechanism. With inelastic demand, the price rise is large."},
+{t:2,q:"Which is a public good?",o:["Education","Street lighting","Healthcare","Bus travel"],a:1,e:"Non-rival and non-excludable. Education and healthcare are merit goods, not public goods."},
+{t:2,q:"Why are public goods not provided by the free market?",o:["They are too expensive","Free-rider problem: people can't be excluded, so won't pay, so firms can't make a profit","They are rival","Consumers don't want them"],a:1,e:"That's a 'missing market', the most complete type of market failure."},
+{t:2,q:"Social cost =",o:["Private cost – external cost","Private cost + external cost","External cost only","Private cost × external cost"],a:1,e:"MSC = MPC + MEC. External costs fall on third parties outside the transaction."},
+{t:2,q:"With a negative production externality, the free market…",o:["Under-produces and under-prices","Over-produces and under-prices relative to the social optimum","Is allocatively efficient","Charges too high a price"],a:1,e:"Firms ignore external costs (MPC < MSC), so output Q1 > Q*. The triangle between MSC and MSB is the welfare loss."},
+{t:2,q:"Which is NOT a type of market failure?",o:["Externalities","Under-provision of public goods","Information gaps","Economies of scale"],a:3,e:"The Edexcel types are externalities, under-provision of public goods and information gaps."},
+{t:3,q:"An indirect tax has the biggest effect on consumers when demand is…",o:["Price elastic","Price inelastic","Unit elastic","Perfectly elastic"],a:1,e:"With inelastic demand, firms can pass most of the tax on. That's why tobacco and fuel are taxed: high revenue, small fall in quantity."},
+{t:3,q:"A £2 tax per unit raises the market price from £10 to £11.50, with 300 units sold after the tax. Consumer share of the tax revenue =",o:["£600","£450","£150","£300"],a:1,e:"Consumer burden = £1.50 × 300 = £450. Producer burden = £0.50 × 300 = £150. Total revenue = £600."},
+{t:3,q:"How do tradable pollution permits work?",o:["They ban pollution","Set a cap on pollution, firms get or buy permits and can trade spares, so cuts happen where they're cheapest","A subsidy for green firms","Price controls"],a:1,e:"Cap-and-trade (e.g. EU ETS). Pros: certainty over the total, market-based, raises revenue if auctioned. Cons: setting the cap, initial over-allocation, monitoring costs."},
+{t:3,q:"Which is a weakness of tradable pollution permits?",o:["They raise no revenue","If too many permits are issued, the price collapses and there's little incentive to cut pollution","They can't reduce pollution","They are a direct ban"],a:1,e:"This happened to the EU ETS early on. Also: monitoring costs, firms may relocate (carbon leakage)."},
+{t:4,q:"Which is a cause of government failure?",o:["Positive externalities","Distortion of price signals","Economies of scope","Free-rider problem"],a:1,e:"The four on your list: distortion of price signals, unintended consequences, excessive administrative costs, information gaps."},
+{t:4,q:"A minimum price on alcohol leads to more cross-border buying and illegal sales. This is an example of…",o:["Information gaps","Unintended consequences","Excessive admin costs","A public good"],a:1,e:"The intervention creates new problems the government didn't intend."},
+{t:4,q:"A government sets a pollution tax too low because it can't measure the external cost. This is…",o:["Information gaps","Moral hazard","Price discrimination","A natural monopoly"],a:0,e:"Governments face information gaps too, e.g. valuing external costs is hard, so the tax may be set at the wrong level."},
+{t:5,q:"A car maker buys a tyre supplier. This is…",o:["Horizontal integration","Backward vertical integration","Forward vertical integration","Conglomerate integration"],a:1,e:"Backward = towards raw materials and suppliers. Forward = towards the customer (e.g. buying a dealership)."},
+{t:5,q:"Which is organic growth?",o:["Merging with a rival","Opening new stores funded by retained profit","Taking over a supplier","A hostile takeover"],a:1,e:"Organic (internal) growth means expanding from within. It's slower but less risky than inorganic growth (mergers and takeovers)."},
+{t:5,q:"Which is a disadvantage of a firm growing too large?",o:["Purchasing economies","Diseconomies of scale such as communication and coordination problems","Lower average costs","Easier finance"],a:1,e:"Diseconomies raise long-run average cost. Large firms may also face regulation (CMA) and culture clashes after mergers."},
+{t:6,q:"Which condition makes collusion more likely?",o:["Many firms","Few firms, similar costs and products, high entry barriers, and the market is hard to monitor for the regulator","Low barriers to entry","Very different products"],a:1,e:"Collusion breaks down with many firms, differing costs, an incentive to cheat, and strong competition authorities (CMA fines, leniency programmes)."},
+{t:6,q:"In a prisoner's dilemma, the Nash equilibrium is…",o:["Always the best joint outcome","Where each firm's choice is best given the other's choice; it may not be jointly optimal","Where both collude","Where neither produces"],a:1,e:"This explains why firms would collude if they could, and why cartels are unstable: each has an incentive to cheat."},
+{t:6,q:"Which is non-price competition?",o:["Price war","Loyalty schemes and advertising","Limit pricing","Predatory pricing"],a:1,e:"Non-price: branding, advertising, quality, loyalty cards, after-sales service. Price competition: price wars, predatory pricing, limit pricing."},
+{t:6,q:"What is limit pricing?",o:["Pricing below cost to drive out a rival","Setting price low enough to deter new entrants while still making some profit","Charging different prices to different groups","A government price cap"],a:1,e:"Predatory pricing is pricing below AVC to force a rival out. It's illegal and the main difference from limit pricing."},
+{t:7,q:"A profit-maximising monopolist produces where…",o:["AR = AC","MC = MR","P = MC","AC is at its minimum"],a:1,e:"Then it sets price off the AR curve, so P > MC (allocatively inefficient). It can keep supernormal profit in the long run because of barriers to entry."},
+{t:7,q:"Which is a potential benefit of monopoly?",o:["Allocative efficiency","Supernormal profits funding R&D (dynamic efficiency), plus economies of scale","Lower prices always","Consumer sovereignty"],a:1,e:"Good evaluation points: natural monopoly, economies of scale, international competitiveness, dynamic efficiency (Schumpeter)."},
+{t:7,q:"A monopsony is…",o:["A single seller","A single (or dominant) buyer","A cartel","A state-owned firm"],a:1,e:"It hires where MCL = MRP and pays the lower wage on ACL. Examples: the NHS as an employer of nurses, supermarkets buying from farmers."},
+{t:7,q:"Which is a possible benefit of monopsony?",o:["Higher wages for workers","Lower input costs that could be passed on to consumers as lower prices","More employment always","Higher supplier profits"],a:1,e:"Evaluate: depends on whether savings are passed on. The NHS keeping costs down benefits taxpayers. Suppliers lose."}
+],
+cards:[
+{t:0,f:"Positive vs normative",b:"Positive: objective and testable ('will', 'is'). Normative: value judgement ('should', 'fairer', 'better'). Tip: underline the trigger word in the extract and explain why it is testable or not."},
+{t:0,f:"Renewable vs non-renewable resources",b:"Renewable: replenished naturally (wind, solar, fish, timber), but can be over-exploited. Non-renewable: finite (oil, coal, gas, minerals). Link to sustainability, scarcity and opportunity cost."},
+{t:1,f:"Factors affecting PES",b:"Spare capacity, level of stocks, time period (momentary, short run, long run), ease of factor substitution, production lag, ease of entry"},
+{t:1,f:"Price mechanism: local / national / global examples",b:"Local: housing rents near a new station. National: UK petrol prices. Global: oil, coffee, wheat (e.g. the Ukraine war raised wheat prices). Use a S&D shift diagram plus the rationing/signalling/incentive functions."},
+{t:2,f:"Negative externality diagram",b:"DIAGRAM:ext"},
+{t:2,f:"Types of market failure",b:"1) Externalities (positive and negative). 2) Under-provision of public goods (free-rider problem). 3) Information gaps (asymmetric information, e.g. used cars, merit/demerit goods)."},
+{t:2,f:"Why are public goods under-provided?",b:"Non-excludable, so free riders. Non-rival, so the marginal cost of an extra user is zero. Firms can't charge, so no profit, so a missing market. Example: street lights, national defence, flood defences."},
+{t:3,f:"Indirect tax diagram",b:"DIAGRAM:tax"},
+{t:3,f:"Methods of government intervention",b:"Indirect taxes, subsidies, max/min prices, tradable pollution permits, state provision, provision of information, regulation. For each, know one pro and one con."},
+{t:3,f:"Tradable pollution permits: evaluate",b:"✓ Fixed cap = certainty, cuts made where cheapest, incentive to innovate, revenue if auctioned. ✗ Hard to set the cap, over-allocation (early EU ETS), monitoring costs, carbon leakage, can be costly for small firms."},
+{t:4,f:"4 causes of government failure",b:"1) Distortion of price signals (e.g. subsidies leading to overproduction). 2) Unintended consequences (e.g. black markets). 3) Excessive admin costs (e.g. complex schemes). 4) Information gaps (e.g. wrong tax level). Examples: CAP butter mountains, rent controls, the HS2 cost overrun."},
+{t:5,f:"How businesses grow",b:"Organic: new products, stores, markets. Inorganic: mergers and takeovers, either horizontal, vertical (forward or backward) or conglomerate."},
+{t:5,f:"Growth: advantages & disadvantages",b:"✓ Economies of scale, market power, diversification (conglomerate), control of the supply chain (vertical). ✗ Diseconomies of scale, culture clash, CMA investigation, debt, loss of focus."},
+{t:6,f:"Game theory payoff matrix",b:"DIAGRAM:game"},
+{t:6,f:"Collusion vs non-collusion",b:"Collude when: few firms, similar costs, homogeneous products, high barriers, stable demand, weak regulation. Don't collude when: many firms, different costs, incentive to cheat, strong CMA, leniency rules, a recession."},
+{t:6,f:"Price vs non-price competition",b:"Price: price wars, predatory pricing, limit pricing. Non-price: advertising, branding, loyalty schemes, quality, innovation, customer service."},
+{t:7,f:"Monopoly diagram",b:"DIAGRAM:mono"},
+{t:7,f:"Monopsony diagram",b:"DIAGRAM:monop"}
+],
+exam:[
+{t:0,m:5,q:"With reference to the extract, explain the difference between a positive and a normative statement.",plan:["Define both (1+1).","Pick <b>one example of each from the extract</b> and say why: testable vs value judgement (1+1).","Mark-winner: point out the trigger word (e.g. 'should').","Keep it to about 5 minutes."]},
+{t:1,m:8,q:"Using a supply and demand diagram, explain the likely effect of a fall in the global supply of wheat on its price. Refer to price elasticity of supply in your answer.",plan:["<b>Diagram:</b> S shifts left, P rises, Q falls. Label P1, P2, Q1, Q2 clearly.","<b>Chain:</b> shortage at the old price, then rationing and signalling functions push price up.","<b>PES:</b> short-run supply is inelastic (growing time, production lag), so it's hard for other producers to respond and the price spike is large.","<b>Context:</b> link to an extract example (e.g. drought, war in Ukraine).","Maybe evaluate: in the long run supply becomes more elastic, so price may fall back."]},
+{t:2,m:10,q:"Explain, using an externality diagram, why the free market may lead to a misallocation of resources in the market for air travel.",plan:["DIAGRAM:ext","<b>Define:</b> private costs, external costs (noise, CO₂), social cost = private + external.","<b>Analysis:</b> airlines and passengers ignore external costs, so output Q1 is above the social optimum Q*. The welfare loss triangle shows misallocation.","<b>Apply:</b> extract data on emissions or growth in flights.","<b>Short evaluation:</b> hard to measure external costs, and there may be positive externalities (tourism, jobs)."]},
+{t:2,m:5,q:"Explain why street lighting is a public good.",plan:["Non-excludable: you can't stop someone who doesn't pay from benefiting.","Non-rival: one person's use doesn't reduce another's.","Free-rider problem, so no profit for firms, so a missing market.","So it must be provided by the state, funded by taxation."]},
+{t:3,m:8,q:"Using an indirect tax diagram, explain the effect of a sugar tax on producers and consumers.",plan:["DIAGRAM:tax","Specific tax shifts S vertically up. P rises by less than the tax, Q falls.","Shade and name: consumer burden, producer burden, government revenue.","Link to PED: if demand is inelastic, consumers bear more and Q only falls a little.","Apply to the context (soft drinks levy: firms reformulated drinks)."]},
+{t:3,m:15,q:"Evaluate the use of tradable pollution permits to reduce carbon emissions.",plan:["<b>Explain:</b> cap set, permits allocated or auctioned, firms trade, the price creates an incentive to cut emissions.","<b>Analysis 1:</b> certainty over the total. Cuts happen where they're cheapest (efficient).","<b>Analysis 2:</b> revenue from auctions, incentive to innovate in green technology.","<b>Evaluation:</b> the cap may be set wrong (info gaps), over-allocation made the EU ETS price collapse, monitoring and admin costs, carbon leakage.","<b>Compare</b> to a carbon tax: price certainty vs quantity certainty.","<b>Judgement:</b> effective <i>if</i> the cap is tight and permits are auctioned."]},
+{t:4,m:12,q:"Discuss the causes of government failure when governments intervene in markets.",plan:["Define government failure: intervention leads to a net welfare loss.","<b>Distortion of price signals:</b> e.g. subsidies leading to overproduction (CAP).","<b>Unintended consequences:</b> e.g. high cigarette tax leading to smuggling.","<b>Excessive admin costs:</b> e.g. complex permit schemes, enforcement.","<b>Information gaps:</b> the tax or subsidy is set at the wrong level.","<b>Evaluate:</b> government failure doesn't mean doing nothing. Compare its size to the market failure, and consider better policy design."]},
+{t:5,m:12,q:"Discuss the advantages and disadvantages to a firm of growing through vertical integration.",plan:["Define forward and backward integration, with an example.","✓ Control over supply and quality, removes the supplier's profit margin, barriers to rivals, security of distribution.","✗ Diseconomies of scale, lack of expertise in the new stage, culture clash, high cost and debt, possible CMA scrutiny.","<b>Evaluate:</b> it depends on the market's reliability, the size of savings, and whether the firm manages integration well."]},
+{t:6,m:10,q:"Using game theory, explain why firms in an oligopoly may choose to collude.",plan:["DIAGRAM:game","Interdependence: each firm's decision depends on rivals.","Explain the dominant strategy and the Nash equilibrium (both low price).","Collusion moves them to the jointly better outcome (both high price).","But there's an incentive to cheat, so it's unstable. Also illegal: CMA fines."]},
+{t:6,m:15,q:"Evaluate the reasons for collusion and non-collusion in oligopolistic markets.",plan:["<b>Collusion:</b> joint profit maximisation, reduced uncertainty, few firms, similar costs, high barriers.","<b>Non-collusion:</b> illegal (CMA fines up to 10% of turnover), leniency programmes encourage whistle-blowing, incentive to cheat, many firms, different costs, falling demand.","<b>Tacit collusion</b> (price leadership) as a middle ground.","<b>Judgement:</b> depends on market structure and the strength of regulation."]},
+{t:7,m:25,q:"Q7 (25): Evaluate the view that monopolies are always against the public interest.",plan:["DIAGRAM:mono","<b>Define:</b> pure monopoly (one firm) vs legal monopoly (over 25% market share). Profit max at MC = MR.","<b>Against public interest:</b> P > MC (allocative inefficiency), not at min AC (productive inefficiency), X-inefficiency, deadweight loss, less choice, supernormal profit at consumers' expense.","<b>For:</b> economies of scale can lower costs and price, natural monopoly (water, rail track), dynamic efficiency from R&D (pharma), international competitiveness, cross-subsidisation.","<b>Evaluation:</b> 'always' is too strong. It depends on contestability, regulation (Ofwat, RPI–X), whether profits are reinvested, and the type of market.","<b>Judgement:</b> monopolies <i>can</i> serve the public interest if regulated or contestable. Unregulated monopolies with high barriers are more likely to harm it."]},
+{t:7,m:25,q:"Q8 (25): Evaluate the economic effects of monopsony power on workers, suppliers and consumers.",plan:["DIAGRAM:monop","<b>Define:</b> a single or dominant buyer. It hires where MCL = MRP and pays the wage off ACL, so lower wages and lower employment.","<b>Workers:</b> lower wages (NHS nurses, Amazon in a small town), exploitation.","<b>Suppliers:</b> supermarkets squeeze farmers' prices, which can drive them out of business and reduce quality or investment.","<b>Consumers:</b> may gain lower prices if savings are passed on, but may lose choice and quality over time.","<b>Evaluation:</b> can a monopsony counter monopoly power on the other side (bilateral monopoly, trade unions)? The NHS saves taxpayers money. Minimum wage law can increase both wages and employment in monopsony.","<b>Judgement:</b> depends on whether gains are passed on, and on unions and regulation (Groceries Code Adjudicator)."]}
+]},
+
+maths:{name:"Maths (Pure Y1–Y2)",topics:["Algebra & quadratics","Coord geometry & circles","Binomial & sequences","Trig","Exp & logs","Differentiation","Integration","Functions & proof"],
+mcq:[
+{t:0,q:"x² + kx + 9 = 0 has equal roots and k > 0. What is k?",o:["3","6","9","18"],a:1,e:"Equal roots: b² – 4ac = 0, so k² – 36 = 0, k = 6."},
+{t:0,q:"x² – 6x + 11 in completed-square form is…",o:["(x – 3)² + 2","(x – 6)² + 11","(x – 3)² – 2","(x + 3)² + 2"],a:0,e:"(x – 3)² = x² – 6x + 9, so add 2. Minimum point (3, 2)."},
+{t:0,q:"Express (5x + 1)/((x + 1)(x – 1)) in partial fractions.",o:["2/(x+1) + 3/(x–1)","3/(x+1) + 2/(x–1)","5/(x+1) + 1/(x–1)","–2/(x+1) + 3/(x–1)"],a:0,e:"5x + 1 = A(x – 1) + B(x + 1). x = 1 gives 6 = 2B, B = 3. x = –1 gives –4 = –2A, A = 2."},
+{t:0,q:"Solve |2x – 1| = 5.",o:["x = 3 only","x = 3 or x = –2","x = –3 or 2","x = 2 or –2"],a:1,e:"2x – 1 = 5 gives x = 3. 2x – 1 = –5 gives x = –2."},
+{t:1,q:"Circle x² + y² – 4x + 6y – 12 = 0. Centre and radius?",o:["(2, –3), r = 5","(–2, 3), r = 5","(2, –3), r = 25","(4, –6), r = 12"],a:0,e:"(x – 2)² + (y + 3)² = 12 + 4 + 9 = 25, so r = 5."},
+{t:1,q:"The line perpendicular to y = 2x + 1 through (4, 1) is…",o:["y = 2x – 7","y = –½x + 3","y = –½x + 1","y = ½x – 1"],a:1,e:"m = –½. y – 1 = –½(x – 4), so y = –½x + 3."},
+{t:1,q:"|3i – 4j| =",o:["7","5","1","25"],a:1,e:"√(3² + 4²) = 5."},
+{t:1,q:"x = t², y = 2t. dy/dx =",o:["t","1/t","2t","2/t²"],a:1,e:"dy/dt ÷ dx/dt = 2/(2t) = 1/t."},
+{t:2,q:"Coefficient of x² in (1 + 2x)⁵?",o:["10","20","40","80"],a:2,e:"⁵C₂ × 2² = 10 × 4 = 40."},
+{t:2,q:"(1 – 2x)<sup>½</sup> ≈ ? (up to x²), valid for…",o:["1 – x – ½x², |x| < ½","1 – x + ½x², |x| < 1","1 + x – ½x², |x| < ½","1 – 2x + x², |x| < 2"],a:0,e:"1 + ½(–2x) + [½·(–½)/2](–2x)² = 1 – x – ½x². Valid when |2x| < 1."},
+{t:2,q:"Arithmetic series: a = 3, d = 4. Sum of first 20 terms?",o:["820","800","860","412"],a:0,e:"S = n/2(2a + (n – 1)d) = 10(6 + 76) = 820."},
+{t:2,q:"Geometric series a = 8, r = ½. S<sub>∞</sub> =",o:["4","16","12","Diverges"],a:1,e:"a/(1 – r) = 8/0.5 = 16. Only valid when |r| < 1."},
+{t:3,q:"Solve sin θ = 0.5 for 0° ≤ θ ≤ 360°.",o:["30° only","30°, 150°","30°, 330°","60°, 120°"],a:1,e:"Sine is positive in quadrants 1 and 2: 30° and 180° – 30°."},
+{t:3,q:"Arc length, r = 5, θ = 1.2 rad?",o:["6","15","3","30"],a:0,e:"s = rθ = 6. Sector area = ½r²θ = 15."},
+{t:3,q:"Small-angle approximation for cos θ?",o:["θ","1 – θ²/2","1 – θ","θ²"],a:1,e:"sin θ ≈ θ, tan θ ≈ θ, cos θ ≈ 1 – θ²/2. θ must be in radians."},
+{t:3,q:"3cos x + 4sin x = Rcos(x – α). R and α?",o:["5, 53.1°","7, 36.9°","5, 36.9°","25, 53.1°"],a:0,e:"R = √(9 + 16) = 5. tan α = 4/3 gives α = 53.13°."},
+{t:3,q:"cos 2x is NOT equal to…",o:["cos²x – sin²x","1 – 2sin²x","2cos²x – 1","2sin x cos x"],a:3,e:"2sin x cos x = sin 2x."},
+{t:4,q:"Solve 3<sup>x</sup> = 20 (3 s.f.).",o:["2.73","6.67","1.30","2.99"],a:0,e:"x = ln 20 / ln 3 = 2.727…"},
+{t:4,q:"N = 100e<sup>0.2t</sup>. When does N double?",o:["t ≈ 3.47","t = 10","t ≈ 0.69","t = 5"],a:0,e:"e<sup>0.2t</sup> = 2, so t = ln 2 / 0.2 ≈ 3.47."},
+{t:4,q:"log₂ 32 + log₂ 2 =",o:["5","6","16","64"],a:1,e:"5 + 1 = 6 (or log₂ 64)."},
+{t:5,q:"d/dx (3x⁴ – 2√x) =",o:["12x³ – x<sup>–½</sup>","12x³ – 2x<sup>–½</sup>","12x³ – √x","3x³ – x<sup>½</sup>"],a:0,e:"2x<sup>½</sup> differentiates to x<sup>–½</sup>."},
+{t:5,q:"y = x³ – 3x. The stationary point at x = 1 is…",o:["A maximum at (1, –2)","A minimum at (1, –2)","A minimum at (1, 2)","A point of inflection"],a:1,e:"y'' = 6x = 6 > 0, so it's a minimum. y = 1 – 3 = –2."},
+{t:5,q:"d/dx (3x + 1)⁵ =",o:["5(3x + 1)⁴","15(3x + 1)⁴","15(3x + 1)⁵","(3x + 1)⁶/18"],a:1,e:"Chain rule: 5(3x + 1)⁴ × 3."},
+{t:5,q:"d/dx (x²eˣ) =",o:["2xeˣ","eˣ(x² + 2x)","x²eˣ","eˣ(2x + 1)"],a:1,e:"Product rule: u'v + uv'."},
+{t:5,q:"x² + y² = 25. dy/dx =",o:["–x/y","x/y","–y/x","2x"],a:0,e:"Implicit: 2x + 2y(dy/dx) = 0."},
+{t:5,q:"d/dx (tan x) =",o:["sec x tan x","sec²x","–cosec²x","cos²x"],a:1,e:"From the formula book, but learn it."},
+{t:6,q:"∫₀² (6x² + 4) dx =",o:["24","20","16","32"],a:0,e:"[2x³ + 4x]₀² = 16 + 8."},
+{t:6,q:"∫ e<sup>3x</sup> dx =",o:["3e<sup>3x</sup> + c","⅓e<sup>3x</sup> + c","e<sup>3x</sup> + c","e<sup>3x+1</sup>/(3x+1) + c"],a:1,e:"Reverse chain rule: divide by 3."},
+{t:6,q:"∫ 2x/(x² + 1) dx =",o:["ln(x² + 1) + c","2ln x + c","x² ln x + c","1/(x² + 1) + c"],a:0,e:"Form f'(x)/f(x) integrates to ln|f(x)|."},
+{t:6,q:"∫ x eˣ dx =",o:["eˣ(x – 1) + c","x²eˣ/2 + c","eˣ(x + 1) + c","xeˣ + c"],a:0,e:"By parts: u = x, v' = eˣ, giving xeˣ – ∫eˣ dx."},
+{t:6,q:"∫ sin 2x dx =",o:["–½cos 2x + c","2cos 2x + c","½cos 2x + c","–2cos 2x + c"],a:0,e:"∫sin(ax) dx = –(1/a)cos(ax)."},
+{t:6,q:"Area between y = x and y = x² from 0 to 1?",o:["1/6","1/2","1/3","1"],a:0,e:"∫(x – x²) dx = ½ – ⅓ = 1/6."},
+{t:7,q:"f(x) = 2x + 3, g(x) = x². fg(x) =",o:["(2x + 3)²","2x² + 3","2x³ + 3x²","4x² + 9"],a:1,e:"Apply g first, then f."},
+{t:7,q:"Inverse of f(x) = 2x + 3?",o:["(x – 3)/2","1/(2x + 3)","2x – 3","(x + 3)/2"],a:0,e:"Swap x and y and rearrange. The graph is reflected in y = x."},
+{t:7,q:"Proof that √2 is irrational normally uses…",o:["Exhaustion","Contradiction","Counter-example","Deduction from a diagram"],a:1,e:"Assume √2 = a/b in its simplest form. Then a and b are both even, which is a contradiction."}
+],
+cards:[
+{t:0,f:"Quadratic formula & discriminant",b:"x = (–b ± √(b² – 4ac)) / 2a. b² – 4ac > 0: two roots. = 0: one repeated root. < 0: no real roots."},
+{t:0,f:"Partial fractions with a repeated factor",b:"A/(x + a) + B/(x + b) + C/(x + b)²"},
+{t:1,f:"Circle equation",b:"(x – a)² + (y – b)² = r². Tangent ⟂ radius. The perpendicular bisector of a chord passes through the centre."},
+{t:1,f:"Parametric differentiation",b:"dy/dx = (dy/dt) ÷ (dx/dt)"},
+{t:2,f:"Arithmetic sequence formulas",b:"uₙ = a + (n – 1)d. Sₙ = n/2 (2a + (n – 1)d) = n/2 (a + l)"},
+{t:2,f:"Geometric sequence formulas",b:"uₙ = arⁿ⁻¹. Sₙ = a(1 – rⁿ)/(1 – r). S∞ = a/(1 – r) when |r| < 1"},
+{t:2,f:"General binomial (1 + x)ⁿ",b:"1 + nx + n(n – 1)x²/2! + n(n – 1)(n – 2)x³/3! … Valid for |x| < 1 when n is negative or a fraction. For (a + bx)ⁿ, take aⁿ out first."},
+{t:3,f:"Trig identities to learn",b:"sin²θ + cos²θ = 1. tan θ = sin θ/cos θ. 1 + tan²θ = sec²θ. 1 + cot²θ = cosec²θ. sin 2A = 2sin A cos A. cos 2A = cos²A – sin²A = 1 – 2sin²A = 2cos²A – 1"},
+{t:3,f:"R-addition method",b:"a sin x + b cos x = R sin(x + α). R = √(a² + b²), tan α = b/a. Expand, compare coefficients, square and add for R, divide for α."},
+{t:3,f:"Radians",b:"π rad = 180°. Arc = rθ. Sector = ½r²θ. Segment = ½r²(θ – sin θ)"},
+{t:4,f:"Log laws",b:"log a + log b = log ab. log a – log b = log(a/b). n log a = log aⁿ. log_a a = 1. log 1 = 0. y = axⁿ gives log y = log a + n log x (straight line)."},
+{t:5,f:"Differentiation rules",b:"Chain: dy/dx = dy/du × du/dx. Product: u'v + uv'. Quotient: (u'v – uv')/v². d/dx eᵏˣ = keᵏˣ. d/dx ln x = 1/x. d/dx sin x = cos x. d/dx cos x = –sin x."},
+{t:5,f:"Stationary points & nature",b:"dy/dx = 0. d²y/dx² > 0: minimum. < 0: maximum. Concave: f''(x) < 0. Convex: f''(x) > 0. Point of inflection: f'' changes sign."},
+{t:5,f:"Newton–Raphson",b:"xₙ₊₁ = xₙ – f(xₙ)/f'(xₙ). Fails if f'(xₙ) ≈ 0 (tangent nearly horizontal)."},
+{t:6,f:"Standard integrals",b:"∫xⁿ = xⁿ⁺¹/(n + 1). ∫1/x = ln|x|. ∫eᵏˣ = eᵏˣ/k. ∫cos kx = (1/k) sin kx. ∫sin kx = –(1/k) cos kx. ∫sec²kx = (1/k) tan kx"},
+{t:6,f:"Integration by parts",b:"∫u v' dx = uv – ∫v u' dx. Pick u by LATE: Logs, Algebra, Trig, Exponentials (u = ln x first)."},
+{t:6,f:"Integration by substitution: steps",b:"1) Choose u. 2) Find du/dx, replace dx. 3) Change the limits. 4) Integrate in u. 5) Substitute back (or use the new limits)."},
+{t:6,f:"Trapezium rule",b:"∫ ≈ ½h[y₀ + yₙ + 2(y₁ + … + yₙ₋₁)], h = (b – a)/n. Overestimates if the curve is convex, underestimates if concave."},
+{t:7,f:"Proof types",b:"Deduction, exhaustion, counter-example (disproof), contradiction (√2 irrational, infinitely many primes)."}
+],
+exam:[
+{t:5,m:6,q:"Find the equation of the tangent to y = x³ – 2x² + 1 at x = 2.",plan:["y(2) = 8 – 8 + 1 = 1, so the point is (2, 1).","dy/dx = 3x² – 4x, so at x = 2: 12 – 8 = 4.","y – 1 = 4(x – 2)","<b>y = 4x – 7</b>"]},
+{t:3,m:6,q:"Solve 2cos²x + 3sin x = 3 for 0° ≤ x ≤ 360°.",plan:["Use cos²x = 1 – sin²x: 2 – 2sin²x + 3sin x – 3 = 0","2sin²x – 3sin x + 1 = 0","(2sin x – 1)(sin x – 1) = 0","sin x = ½ gives x = 30°, 150°. sin x = 1 gives x = 90°.","<b>x = 30°, 90°, 150°</b>"]},
+{t:3,m:7,q:"Solve 3cos x + 4sin x = 2.5 for 0° ≤ x < 360°.",plan:["Write as 5cos(x – 53.13°)","cos(x – 53.13°) = 0.5","x – 53.13° = 60° or 300° (range –53.13° to 306.87°)","<b>x = 113.1°, 353.1°</b>"]},
+{t:6,m:5,q:"Find ∫₀<sup>π</sup> x sin x dx.",plan:["Parts: u = x, v' = sin x, so u' = 1, v = –cos x","= [–x cos x]₀<sup>π</sup> + ∫₀<sup>π</sup> cos x dx","= (–π · –1) – 0 + [sin x]₀<sup>π</sup>","= π + 0 = <b>π</b>"]},
+{t:6,m:5,q:"Find the area enclosed by y = x² and y = 2x.",plan:["Intersect: x² = 2x, so x = 0 or 2","Area = ∫₀² (2x – x²) dx (top minus bottom)","= [x² – x³/3]₀²  = 4 – 8/3","= <b>4/3</b>"]},
+{t:6,m:5,q:"Use u = x² + 1 to find ∫ x(x² + 1)⁴ dx.",plan:["du/dx = 2x, so x dx = ½ du","= ½ ∫ u⁴ du = ½ · u⁵/5","= <b>(x² + 1)⁵ / 10 + c</b>"]},
+{t:0,m:6,q:"Find ∫ (5x + 1)/((x + 1)(x – 1)) dx.",plan:["Partial fractions: 2/(x + 1) + 3/(x – 1)","Integrate each part: ∫ k/(x + a) dx = k ln|x + a|","= <b>2ln|x + 1| + 3ln|x – 1| + c</b>"]},
+{t:1,m:5,q:"Circle (x – 2)² + (y + 3)² = 25. Find the tangent at (5, 1).",plan:["Check (5, 1) is on the circle: 3² + 4² = 25 ✓","Gradient of the radius from (2, –3) to (5, 1) = 4/3","Tangent gradient = –3/4","y – 1 = –¾(x – 5)","<b>3x + 4y – 19 = 0</b>"]},
+{t:4,m:5,q:"Solve 2<sup>2x</sup> – 5(2<sup>x</sup>) + 4 = 0.",plan:["Let y = 2<sup>x</sup>: y² – 5y + 4 = 0","(y – 1)(y – 4) = 0, so y = 1 or 4","2<sup>x</sup> = 1 gives x = 0. 2<sup>x</sup> = 4 gives x = 2.","<b>x = 0, x = 2</b>"]},
+{t:7,m:4,q:"Prove by contradiction that √2 is irrational.",plan:["Assume √2 = a/b, where a and b are integers with no common factors.","2 = a²/b², so a² = 2b², so a² is even, so a is even. Let a = 2k.","4k² = 2b², so b² = 2k², so b is even.","Both a and b are even: this contradicts 'no common factors'. So <b>√2 is irrational</b>."]}
+]}
+};
+
+/* ---------- STATE ---------- */
+let sub="tudors", mode="quiz", topic=-1;
+const LOOK={tudors:{ic:"👑",short:"Tudors",c:"#9b3b2a",sub:"AQA · Henry VII to Mary",board:"AQA A-level History (1C The Tudors)"},russia:{ic:"☭",short:"Russia",c:"#b42318",sub:"AQA · 1917 to the Stakhanovites",board:"AQA A-level History (Russia: Revolution and Dictatorship)"},econ:{ic:"📈",short:"Econ",c:"#0e7c66",sub:"Edexcel A · Paper 1 mock topics",board:"Edexcel A A-level Economics Paper 1"},maths:{ic:"∫",short:"Maths",c:"#4f46e5",sub:"Edexcel · Pure Y1–Y2 to integration",board:"Edexcel A-level Mathematics (Pure)"}};
+const MODES=[["quiz","Quiz","✓"],["cards","Cards","🃏"],["exam","Exam","✍️"],["skills","Skills","🎓"],["weak","Weak","🎯"],["progress","Progress","📊"]];
+Object.values(S).forEach(d=>{["mcq","cards","exam"].forEach(k=>d[k].forEach((x,i)=>x.id=i))});
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+function rich(s){return s.startsWith("DIAGRAM:")?DG[s.slice(8)]:s}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function strip(s){return String(s).replace(/<[^>]+>/g,"")}
+function md(s){return esc(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/^#+\s*(.+)$/gm,"<b>$1</b>").replace(/^\s*[-•*]\s+(.+)$/gm,"<li>$1</li>").replace(/(<li>.*<\/li>\n?)+/g,m=>"<ul>"+m+"</ul>").replace(/\n{2,}/g,"<br><br>").replace(/\n/g,"<br>")}
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toISOString().slice(0,10);
+
+/* ---------- PROGRESS (device + cloud) ---------- */
+let P={},DB=null,UID=null,SYNC="device",AI=null;
+const blank=()=>({q:{},c:{},e:{},s:{},d:[],t:0});
+function loadLocal(){Object.keys(S).forEach(k=>{const v=store("prog-"+k);P[k]=v&&typeof v==="object"?Object.assign(blank(),v):blank()})}
+function prog(s){return P[s||sub]}
+const pending={},writing={};
+function save(s){s=s||sub;P[s].t=Date.now();store("prog-"+s,P[s]);if(DB&&UID){pending[s]=true;flush(s)}}
+async function flush(s){if(writing[s])return;writing[s]=true;
+  while(pending[s]&&DB){pending[s]=false;
+    try{await DB.collection("data/users/"+UID).doc("prog-"+s).set(JSON.parse(JSON.stringify(P[s])))}
+    catch(e){if(e&&(e.code==="invalid_argument"||e.code==="revoked"||e.code==="not_granted"||e.code==="quota_exceeded")){DB=null;SYNC="device";syncTag();break}
+      await new Promise(r=>setTimeout(r,800+Math.random()*800));}}
+  writing[s]=false}
+async function initCloud(){
+  if(!(window.claude&&claude.use))return;
+  claude.use("sample").then(s=>{AI=s||null;if(AI&&(mode==="exam"))renderE()}).catch(()=>{});
+  try{
+    const [db,user]=await Promise.all([claude.use("db"),claude.use("user")]);
+    if(!db||!user)return;const id=await user.id();if(!id)return;
+    DB=db;UID=id;SYNC="syncing";syncTag();
+    const to=setTimeout(()=>{if(SYNC==="syncing"){SYNC="device";syncTag()}},10000);
+    await Promise.all(Object.keys(S).map(async k=>{
+      const snap=await db.collection("data/users/"+id).doc("prog-"+k).get();
+      const d=snap.exists?snap.data():null;
+      if(d&&(d.t||0)>(P[k].t||0)){P[k]=Object.assign(blank(),JSON.parse(JSON.stringify(d)));store("prog-"+k,P[k])}
+      else if(P[k].t&&(!d||(P[k].t>(d.t||0)))){pending[k]=true;flush(k)}
+    }));
+    clearTimeout(to);if(DB){SYNC="cloud";syncTag();nav();if(mode==="weak"||mode==="progress")go(true)}
+  }catch(e){SYNC="device";syncTag()}
+}
+function syncTag(){const el=$("sync");if(!el)return;el.textContent={cloud:"☁️ Synced to your account",syncing:"⏳ Syncing…",device:"📱 Saved on this device"}[SYNC]}
+function markDay(){const p=prog(),t=today();if(p.d[p.d.length-1]!==t){p.d.push(t);if(p.d.length>120)p.d.shift()}}
+function streak(){const set=new Set();Object.values(P).forEach(p=>(p.d||[]).forEach(x=>set.add(x)));let n=0,d=new Date();
+  if(!set.has(today()))d.setDate(d.getDate()-1);
+  while(set.has(d.toISOString().slice(0,10))){n++;d.setDate(d.getDate()-1)}return n}
+function qStat(id,s){const r=prog(s).q[id];if(!r)return"new";if(r.st>=2)return"mastered";if(r.w>0)return"weak";return"learning"}
+function cBox(id,s){const r=prog(s).c[id];return r?r.b:-1}
+function recQ(id,ok){const p=prog(),r=p.q[id]||(p.q[id]={s:0,c:0,st:0,w:0});r.s++;if(ok){r.c++;r.st++}else{r.w++;r.st=0}r.l=Date.now();markDay();save()}
+function recC(id,ok){const p=prog(),r=p.c[id]||(p.c[id]={b:0,s:0});r.s++;r.b=ok?Math.min(r.b+1,4):0;r.l=Date.now();markDay();save()}
+function mastery(s,t){const d=S[s];const qs=d.mcq.filter(x=>t==null||x.t===t),cs=d.cards.filter(x=>t==null||x.t===t);
+  const m=qs.filter(x=>qStat(x.id,s)==="mastered").length+cs.filter(x=>cBox(x.id,s)>=3).length;const tot=qs.length+cs.length;return tot?Math.round(m/tot*100):0}
+function accuracy(s,t){let a=0,b=0;S[s].mcq.forEach(x=>{if(t!=null&&x.t!==t)return;const r=prog(s).q[x.id];if(r){a+=r.c;b+=r.s}});return b?{p:Math.round(a/b*100),n:b}:null}
+
+/* ---------- NAV ---------- */
+function nav(){
+  const L=LOOK[sub],d=S[sub];
+  document.documentElement.style.setProperty("--acc",L.c);
+  document.documentElement.style.setProperty("--accs","color-mix(in srgb,"+L.c+" 12%,var(--card))");
+  $("subjects").innerHTML=Object.keys(S).map(k=>`<button class="sub ${k===sub?'on':''}" onclick="setSub('${k}')"><span class="ic">${LOOK[k].ic}</span>${LOOK[k].short}</button>`).join("");
+  $("modes").innerHTML=MODES.map(([k,n,i])=>`<button class="mode ${k===mode?'on':''}" onclick="setMode('${k}')"><span class="ic">${i}</span>${n}</button>`).join("");
+  const tt=topic<0?null:topic,weakN=pool("mcq").filter(x=>qStat(x.id)==="weak").length;
+  $("hero").innerHTML=`<div class="hero"><h2>${d.name}</h2><p>${L.sub}${topic>=0?" · <b>"+d.topics[topic]+"</b>":""}</p><div class="stats">
+   <div class="stat"><b>${mastery(sub,tt)}%</b><span>mastered</span></div>
+   <div class="stat"><b>${(()=>{const a=accuracy(sub,tt);return a?a.p+"%":"–"})()}</b><span>accuracy</span></div>
+   <div class="stat"><b>${weakN}</b><span>weak Qs</span></div>
+   <div class="stat"><b>${streak()}🔥</b><span>day streak</span></div></div></div>`;
+  $("tp").innerHTML=`<option value="-1">All topics</option>`+d.topics.map((t,i)=>`<option value="${i}" ${i===topic?"selected":""}>${t}</option>`).join("");
+  $("tsel").style.display=(mode==="progress"||mode==="skills")?"none":"flex";
+  syncTag();
+}
+function setSub(k){sub=k;topic=-1;go()}
+function setMode(k){mode=k;go()}
+function setTopic(i){topic=i;go()}
+function pool(key,s){s=s||sub;return S[s][key].filter(x=>topic<0||x.t===topic)}
+function go(keep){nav();(K=null,{quiz:()=>startQuiz(),cards:()=>startCards(),exam:startExam,skills:skillsList,weak:renderWeak,progress:renderProg})[mode]();if(!keep)window.scrollTo(0,0)}
+
+/* ---------- QUIZ ---------- */
+let Q={},QKIND="smart";
+function smartSet(n){
+  const all=pool("mcq"),g=st=>shuffle(all.filter(x=>qStat(x.id)===st));
+  const mastered=all.filter(x=>qStat(x.id)==="mastered").sort((a,b)=>(prog().q[a.id].l||0)-(prog().q[b.id].l||0));
+  return [...g("weak"),...g("new"),...g("learning"),...mastered].slice(0,n);
+}
+function startQuiz(list,kind){
+  if(kind)QKIND=kind;
+  const items=list||(QKIND==="all"?shuffle(pool("mcq")):smartSet(10));
+  if(!items.length){$("app").innerHTML='<div class="card">No quiz questions here. Try Cards or Exam Qs.</div>';return}
+  Q={items,i:0,score:0,wrong:[],answered:false,custom:!!list};renderQ();
+}
+function seg(){return Q.custom?`<div class="seg"><button class="on">🎯 Weak-spot drill</button><button onclick="startQuiz(null,'smart')">Exit drill</button></div>`:
+  `<div class="seg"><button class="${QKIND==='smart'?'on':''}" onclick="startQuiz(null,'smart')">⚡ Smart 10</button><button class="${QKIND==='all'?'on':''}" onclick="startQuiz(null,'all')">All questions</button></div>`}
+function badge(st){return{new:'<span class="pill g">New</span>',weak:'<span class="pill w">Weak spot</span>',learning:'<span class="pill g">Learning</span>',mastered:'<span class="pill m">Mastered</span>'}[st]}
+function renderQ(){
+  const it=Q.items[Q.i],tp=S[sub].topics[it.t];
+  $("app").innerHTML=`${Q.i===0?seg():""}<div class="bar"><div style="width:${Q.i/Q.items.length*100}%"></div></div>
+  <div class="card"><div class="meta"><span class="pill">${tp}</span>${badge(qStat(it.id))}<span class="pill g">${Q.i+1} / ${Q.items.length}</span><span class="pill g">Score ${Q.score}</span></div>
+  <div class="q">${it.q}</div>${shuffle(it.o.map((o,j)=>({o,j}))).map((x,n)=>`<button class="opt" data-j="${x.j}" onclick="ans(${x.j})"><span class="k">${"ABCD"[n]}</span><span>${x.o}</span></button>`).join("")}
+  <div id="fb"></div></div>`;
+}
+function ans(j){
+  if(Q.answered)return;Q.answered=true;
+  const it=Q.items[Q.i],ok=j===it.a;
+  if(ok)Q.score++;else Q.wrong.push(it);recQ(it.id,ok);
+  document.querySelectorAll(".opt").forEach(b=>{const k=+b.dataset.j;if(k===it.a)b.classList.add("ok");else if(k===j)b.classList.add("bad")});
+  const r=prog().q[it.id],note=ok?(r.st>=2?" Mastered ✨":r.w?" One more right in a row to clear this weak spot.":""):" Added to your weak spots.";
+  $("fb").innerHTML=`<div class="exp"><b>${ok?"✓ Correct.":"✗ Not quite."}</b> ${it.e}<div class="hint" style="margin-top:6px">${note}</div></div>
+  ${AI&&!ok?`<div id="aiq"></div><button class="btn ghost sm" id="askb" onclick="askWhy(${j})">💬 Still confused? Ask Claude</button>`:""}
+  <div class="btns"><button class="btn" onclick="nextQ()">${Q.i+1<Q.items.length?"Next →":"See results"}</button></div>`;
+}
+async function askWhy(j){
+  const it=Q.items[Q.i],box=$("aiq");$("askb").remove();box.innerHTML='<div class="ai">Thinking…</div>';
+  const prompt=`You are a friendly A-level tutor (${LOOK[sub].board}). A student answered a multiple-choice question wrongly. Explain in under 120 words, UK English, why the correct answer is right and why their choice is wrong. Give one memorable tip to remember it. Use **bold** sparingly and no headings.\n\nQuestion: ${strip(it.q)}\nOptions: ${it.o.map(strip).join(" | ")}\nCorrect: ${strip(it.o[it.a])}\nStudent chose: ${strip(it.o[j])}`;
+  try{await AI(prompt,{modelTier:"quick",onText:({text})=>{box.innerHTML='<div class="ai">'+md(text)+'</div>'}})}
+  catch(e){box.innerHTML='<div class="ai">'+(e&&e.code==="rate_limited"?"Claude's busy. Try again in a minute.":"Couldn't reach Claude just now.")+'</div>';if(e&&e.code==="not_granted")AI=null}
+}
+function nextQ(){Q.i++;Q.answered=false;if(Q.i<Q.items.length){renderQ();window.scrollTo(0,0)}else endQ()}
+function endQ(){
+  nav();const pct=Math.round(Q.score/Q.items.length*100),C2=2*Math.PI*50;
+  const msg=pct===100?"Flawless.":pct>=80?"Strong. Keep it ticking over.":pct>=50?"Getting there. Drill the misses.":"Tough set. The weak-spot drill is your friend.";
+  $("app").innerHTML=`<div class="card" style="text-align:center"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--acc)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C2*pct/100} ${C2}" ${pct?"":'opacity="0"'} transform="rotate(-90 60 60)"/><text x="60" y="67" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">${pct}%</text></svg>
+  <div style="font-weight:600">${Q.score} out of ${Q.items.length}</div><p class="hint">${msg}</p><div style="text-align:left">
+  ${Q.wrong.length?`<p><b>To review:</b></p><ul class="plan">${Q.wrong.map(w=>`<li>${w.q}<br><span class="hint">✓ ${w.o[w.a]}</span></li>`).join("")}</ul>`:""}</div>
+  <div class="btns">${Q.wrong.length?`<button class="btn" onclick="startQuiz(shuffle(Q.wrong))">Retry the ${Q.wrong.length} I missed</button>`:""}<button class="btn ghost" onclick="startQuiz(null,QKIND)">Next set</button></div></div>`;
+}
+
+/* ---------- FLASHCARDS (Leitner boxes) ---------- */
+let C={};
+function startCards(list){
+  let items=list||pool("cards");
+  if(!items.length){$("app").innerHTML='<div class="card">No flashcards here.</div>';return}
+  if(!list){const by=b=>shuffle(items.filter(x=>{const k=cBox(x.id);return b(k)}));items=[...by(k=>k===0),...by(k=>k===-1),...by(k=>k===1),...by(k=>k===2),...by(k=>k>=3)]}
+  C={deck:items,flipped:false,done:0,total:items.length,drill:!!list};renderC();
+}
+function boxLabel(k){return k<0?'<span class="pill g">New</span>':k===0?'<span class="pill w">Struggling</span>':k>=3?'<span class="pill m">Mastered</span>':`<span class="pill g">Box ${k}/3</span>`}
+function renderC(){
+  if(!C.deck.length){nav();$("app").innerHTML=`<div class="card" style="text-align:center"><div class="big">🎉</div><b>Deck cleared</b><p class="hint">All ${C.total} cards done. Cards you know move up a box, and ones you miss drop back to "Struggling" and come up first next time.</p><div class="btns"><button class="btn" onclick="startCards()">Go again</button></div></div>`;return}
+  const c=C.deck[0],tp=S[sub].topics[c.t];
+  $("app").innerHTML=`${C.drill?'<div class="seg"><button class="on">🎯 Weak-card drill</button><button onclick="startCards()">Exit drill</button></div>':""}<div class="bar"><div style="width:${C.done/C.total*100}%"></div></div>
+  <div class="card flash ${C.flipped?'back':''}" onclick="flip()"><div class="meta" style="justify-content:center"><span class="pill">${tp}</span>${boxLabel(cBox(c.id))}</div><div class="side">${C.flipped?"Answer":"Say it out loud, then tap"}</div>
+  <div class="txt">${C.flipped?rich(c.b):c.f}</div></div>
+  ${C.flipped?`<div class="btns"><button class="btn bad" onclick="again()">✗ Again</button><button class="btn good" onclick="known()">✓ Got it</button></div>`:`<p class="hint" style="text-align:center">${C.deck.length} left in this deck</p>`}`;
+}
+function flip(){if(!C.flipped){C.flipped=true;renderC()}}
+function known(){const c=C.deck.shift();recC(c.id,true);C.done++;C.flipped=false;renderC()}
+function again(){const c=C.deck.shift();recC(c.id,false);C.deck.splice(Math.min(3,C.deck.length),0,c);C.flipped=false;renderC()}
+
+/* ---------- EXAM + AI MARKING ---------- */
+let E={items:[],i:0,shown:0},DRAFT={};
+function startExam(){
+  const items=pool("exam");
+  if(!items.length){$("app").innerHTML='<div class="card">No exam questions here.</div>';return}
+  E={items,i:0,shown:0};renderE();
+}
+function renderE(){
+  if(mode!=="exam"||!E.items.length)return;
+  const it=E.items[E.i],tp=S[sub].topics[it.t],isMaths=sub==="maths",key=sub+":"+it.id,rec=prog().e[it.id];
+  const pts=it.plan.slice(0,E.shown).map(p=>p.startsWith("DIAGRAM:")?`<li class="dg">${DG[p.slice(8)]}</li>`:(isMaths?`<div class="step">${p}</div>`:`<li>${p}</li>`)).join("");
+  $("app").innerHTML=`<div class="card"><div class="meta"><span class="pill">${tp}</span><span class="pill g">${it.m} marks</span><span class="pill g">${E.i+1} of ${E.items.length}</span>${rec?`<span class="pill m">Best: ${rec.best}/${it.m}</span>`:""}</div>
+  <div class="q">${it.q}</div>
+  <p class="hint">${isMaths?"Write your working below.":"Write your plan or answer below."} ${AI?"Claude will mark it against the mark scheme, then you can compare with the model "+(isMaths?"solution.":"plan."):"Then compare with the model "+(isMaths?"solution.":"plan.")}</p>
+  <textarea id="ans" placeholder="${isMaths?"Your working…":"Your thesis plus 3–4 paragraph points, or a full answer…"}" oninput="DRAFT['${key}']=this.value">${esc(DRAFT[key]||"")}</textarea>
+  ${AI?`<div class="btns"><button class="btn" id="markb" onclick="markIt()">🧑‍🏫 Mark my answer</button></div>`:""}<div id="mark"></div>
+  <div class="sect">${isMaths?"Model solution":"Model plan"}</div>
+  ${isMaths?pts:`<ul class="plan">${pts}</ul>`}
+  <div class="btns">${E.shown<it.plan.length?`<button class="btn ghost" onclick="E.shown++;renderE()">${E.shown?"Reveal next":"Reveal point 1"}</button><button class="btn ghost" onclick="E.shown=${it.plan.length};renderE()">Show all</button>`:""}</div>
+  ${!isMaths&&E.shown>=it.plan.length?`<div class="lvl"><b>Top-band check:</b> clear judgement in the intro, sustained through every paragraph, precise evidence (dates, names, figures), counter-argument weighed rather than just listed. ${sub==="econ"?"Econ: define, then diagram, then chain of analysis, then apply to context, then evaluate (magnitude, time, stakeholders, 'it depends on…').":""}</div>`:""}
+  <div class="btns">${E.i>0?`<button class="btn ghost" onclick="E.i--;E.shown=0;renderE();scrollTo(0,0)">← Prev</button>`:""}${E.i+1<E.items.length?`<button class="btn ghost" onclick="E.i++;E.shown=0;renderE();scrollTo(0,0)">Next question →</button>`:""}</div></div>`;
+}
+async function markIt(){
+  const it=E.items[E.i],txt=($("ans").value||"").trim(),out=$("mark");
+  if(txt.length<15){out.innerHTML='<div class="ai">Write a bit more first. Even a few bullet points is enough to mark.</div>';return}
+  $("markb").disabled=true;$("markb").textContent="Marking…";out.innerHTML='<div class="ai">Reading your answer…</div>';
+  const isMaths=sub==="maths",scheme=it.plan.filter(p=>!p.startsWith("DIAGRAM:")).map(p=>"- "+strip(p)).join("\n");
+  const prompt=`You are an experienced, honest ${LOOK[sub].board} examiner marking a student's mock practice.
+Question (${it.m} marks): ${strip(it.q)}
+Indicative content / model ${isMaths?"solution":"plan"}:
+${scheme}
+
+Student's ${isMaths?"working":"answer or plan"}:
+"""${txt.slice(0,6000)}"""
+
+${isMaths?"Check each step. Award method (M) and accuracy (A) marks as Edexcel would.":"If it is only a plan, judge what level the plan would reach if written up well. Use the exam board's level descriptors."}${sub==="econ"?" Reward correct diagrams described in words (axes, curves, shifts, areas).":""}
+Reply in UK English, under 220 words, in exactly this format:
+**Estimated mark: X/${it.m}**${isMaths?"":" (Level N)"}
+**What's good**
+- 2–3 bullets
+**To push it higher**
+- 3 specific, actionable bullets referring to what they wrote
+**Try this** one improved sentence or step they could use.`;
+  try{
+    const r=await AI(prompt,{modelTier:"default",onText:({text})=>{out.innerHTML='<div class="ai">'+md(text)+'</div>'}});
+    const m=/Estimated mark:\s*(\d+(?:\.\d+)?)\s*\/\s*(\d+)/i.exec(r.text||"");
+    if(m){const sc=Math.min(+m[1],it.m),p=prog(),e=p.e[it.id]||(p.e[it.id]={best:0,n:0});e.n++;e.last=sc;e.best=Math.max(e.best,sc);markDay();save();
+      out.insertAdjacentHTML("beforeend",`<p class="hint">Saved. Your best on this question is ${e.best}/${it.m}.</p>`)}
+  }catch(e){out.innerHTML='<div class="ai">'+(e&&e.code==="rate_limited"?"Claude's busy. Try again in a minute.":e&&e.code==="not_granted"?"AI marking isn't switched on for this view.":"Couldn't reach Claude just now. Try again.")+'</div>';if(e&&e.code==="not_granted")AI=null}
+  const b=$("markb");if(b){b.disabled=false;b.textContent="🧑‍🏫 Mark again"}
+}
+
+/* ---------- WEAK SPOTS ---------- */
+function renderWeak(){
+  const wq=pool("mcq").filter(x=>qStat(x.id)==="weak"),wc=pool("cards").filter(x=>cBox(x.id)===0);
+  const seenAny=Object.keys(prog().q).length+Object.keys(prog().c).length;
+  const tops=S[sub].topics.map((n,i)=>({n,i,a:accuracy(sub,i),m:mastery(sub,i)})).filter(x=>x.a&&x.a.n>=2).sort((a,b)=>a.a.p-b.a.p).slice(0,3);
+  const lowExam=S[sub].exam.filter(x=>prog().e[x.id]&&prog().e[x.id].best/x.m<0.6&&(topic<0||x.t===topic));
+  $("app").innerHTML=!seenAny?`<div class="card" style="text-align:center"><div class="big">🎯</div><b>No weak spots yet</b><p class="hint">Do a few quizzes and flashcards first. Anything you get wrong lands here automatically and stays until you get it right twice in a row.</p><div class="btns"><button class="btn" onclick="setMode('quiz')">Start a Smart 10 quiz</button></div></div>`:`
+  <div class="card"><div class="sect" style="margin-top:0">Drill your weak spots</div>
+   <div class="wrow"><div><b>${wq.length}</b> quiz question${wq.length===1?"":"s"}</div><button class="btn sm" ${wq.length?"":"disabled"} onclick="mode='quiz';nav();startQuiz(shuffle(Q2(wq)))">Drill</button></div>
+   <div class="wrow"><div><b>${wc.length}</b> struggling flashcard${wc.length===1?"":"s"}</div><button class="btn sm" ${wc.length?"":"disabled"} onclick="mode='cards';nav();startCards(shuffle(Q2(wc)))">Drill</button></div>
+   <p class="hint">Questions leave this list once you get them right twice in a row.</p></div>
+  ${tops.length?`<div class="card"><div class="sect" style="margin-top:0">Your weakest topics</div>${tops.map(t=>`<div class="prow"><div class="ptop"><span>${t.n}</span><span class="hint">${t.a.p}% accuracy</span></div><div class="pb"><div style="width:${t.a.p}%;background:${t.a.p<50?'var(--bad)':t.a.p<75?'#e0a100':'var(--ok)'}"></div></div><button class="link" onclick="topic=${t.i};mode='quiz';QKIND='smart';go()">Practise this topic →</button></div>`).join("")}</div>`:""}
+  ${lowExam.length?`<div class="card"><div class="sect" style="margin-top:0">Exam questions to redo</div>${lowExam.map(x=>`<div class="wrow"><div style="flex:1;font-size:14px">${x.q.slice(0,90)}${x.q.length>90?"…":""}<br><span class="hint">Best ${prog().e[x.id].best}/${x.m}</span></div><button class="btn sm ghost" onclick="openExam(${x.id})">Redo</button></div>`).join("")}</div>`:""}
+  ${wq.length?`<div class="card"><div class="sect" style="margin-top:0">What you keep missing</div><ul class="plan">${wq.map(x=>`<li>${x.q}<br><span class="hint">✓ ${x.o[x.a]} · wrong ${prog().q[x.id].w}×</span></li>`).join("")}</ul></div>`:""}`;
+}
+function Q2(a){return a}
+function openExam(id){topic=-1;mode="exam";nav();E={items:pool("exam"),i:0,shown:0};E.i=Math.max(0,E.items.findIndex(x=>x.id===id));renderE();scrollTo(0,0)}
+
+/* ---------- PROGRESS ---------- */
+let RESET=false;
+function renderProg(){
+  const d=S[sub],m=mastery(sub,null),C2=2*Math.PI*50,a=accuracy(sub,null);
+  const ex=d.exam.filter(x=>prog().e[x.id]);
+  $("app").innerHTML=`<div class="card" style="text-align:center"><svg class="ring" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="60" cy="60" r="50" fill="none" stroke="var(--acc)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C2*m/100} ${C2}" ${m?"":'opacity="0"'} transform="rotate(-90 60 60)"/><text x="60" y="64" text-anchor="middle" font-size="24" font-weight="700" fill="currentColor">${m}%</text><text x="60" y="80" text-anchor="middle" font-size="10" fill="currentColor" opacity=".6">mastered</text></svg>
+   <div class="mini"><div><b>${a?a.p+"%":"–"}</b><span>quiz accuracy</span></div><div><b>${a?a.n:0}</b><span>answers</span></div><div><b>${ex.length}/${d.exam.length}</b><span>exam Qs marked</span></div><div><b>${streak()}🔥</b><span>day streak</span></div></div></div>
+  <div class="card"><div class="sect" style="margin-top:0">By topic</div>${d.topics.map((n,i)=>{const mm=mastery(sub,i),aa=accuracy(sub,i);return`<div class="prow"><div class="ptop"><span>${n}</span><span class="hint">${mm}% mastered${aa?" · "+aa.p+"% acc":""}</span></div><div class="pb"><div style="width:${mm}%"></div></div></div>`}).join("")}</div>
+  <div class="card"><div class="sect" style="margin-top:0">All subjects</div>${Object.keys(S).map(k=>{const mm=mastery(k,null);return`<div class="prow" onclick="setSub('${k}')" style="cursor:pointer"><div class="ptop"><span>${LOOK[k].ic} ${S[k].name}</span><span class="hint">${mm}%</span></div><div class="pb"><div style="width:${mm}%;background:${LOOK[k].c}"></div></div></div>`}).join("")}</div>
+  <div class="card"><p class="hint" style="margin:0 0 10px">A question counts as <b>mastered</b> after 2 correct answers in a row. A flashcard counts once it reaches box 3. Progress saves automatically${SYNC==="cloud"?" to your account, so it follows you across devices.":" on this device."}</p>
+  ${RESET?`<div class="btns"><button class="btn bad" onclick="doReset()">Yes, wipe ${S[sub].name} progress</button><button class="btn ghost" onclick="RESET=false;renderProg()">Cancel</button></div>`:`<button class="link" onclick="RESET=true;renderProg()">Reset progress for this subject</button>`}</div>`;
+}
+function doReset(){P[sub]=blank();save();RESET=false;go()}
+
+/* ---------- EXAM SKILLS DATA ---------- */
+const M=(h,q,o,a,e)=>({k:"mcq",h,q,o,a,e}),X=(h,q,o,c,e)=>({k:"multi",h,q,o,c,e}),W=(model)=>({k:"write",h:"Write it",model});
+const SUPQ="Tick ALL the own-knowledge points that SUPPORT this argument",CHQ="Tick ALL the own-knowledge points that CHALLENGE this argument";
+const SK={
+tudors:[
+{id:"t1",title:"Henry VII and the nobility",m:30,kind:"interp",q:"Using your understanding of the historical context, assess how convincing the arguments in these three extracts are in relation to Henry VII's control of the nobility.",
+items:[
+{label:"Extract A",text:"Henry VII's relationship with his nobility was built on suspicion. Having seized the throne by force, he never forgot how easily it might be taken from him. His instrument of control was money: by the end of the reign most noble families were bound by bonds and recognisances that could ruin them at the king's pleasure. The Council Learned in the Law hunted out every financial advantage. Nobles were not partners in government but potential rebels to be held in check, and the atmosphere at court was one of fear.",
+steps:[M("Argument","What is the extract's overall argument?",["Henry controlled the nobles mainly through fear and financial coercion, treating them as threats","Henry worked in partnership with the nobility","Henry's policy changed after 1502","The nobility had little power under Henry VII"],0,"Look for the 'big claim' in the first and last lines: suspicion, money as the 'instrument of control', and an atmosphere of fear."),
+X("Support",SUPQ,["About 46 of 62 noble families were under bonds or recognisances at some point","The Council Learned, run by Empson and Dudley, chased debts and feudal dues","Lord Bergavenny was fined about £70,000 for illegal retaining (1507)","The Earl of Oxford was trusted with high office","The Eltham Ordinances reformed the Privy Chamber"],[0,1,2],"Oxford's role challenges the argument. The Eltham Ordinances belong to Wolsey in 1526, the wrong reign: a classic trap."),
+X("Challenge",CHQ,["Loyal nobles such as Oxford and Jasper Tudor were central to the regime","46 of the 138 attainders were reversed, rewarding good behaviour","Nobles fought for Henry at Stoke in 1487","The 1504 Statute of Liveries restricted retaining","The Valor Ecclesiasticus surveyed Church wealth"],[0,1,2],"The Statute of Liveries supports the 'control' argument. The Valor is Henry VIII (1535)."),
+M("Judgement","How convincing is Extract A overall?",["Completely convincing: it covers everything","Partly convincing: strong on the methods used in the later reign, but it overstates fear and ignores reward and cooperation","Unconvincing: Henry never used bonds","Unconvincing because the historian is biased"],1,"Top answers give a nuanced verdict tied to evidence. Never judge on provenance; AQA rewards content against context only."),
+W("Extract A argues that Henry VII controlled the nobility through fear, using financial pressure to treat them as potential rebels. This is convincing in part: by the end of the reign around 46 of 62 noble families were under bonds or recognisances, and Bergavenny's £70,000 fine in 1507 shows how ruinous they could be. However, the extract overstates the role of fear. Henry relied heavily on loyal nobles such as Oxford and Jasper Tudor, nobles fought for him at Stoke, and the reversal of 46 attainders shows he used reward as well as threat. The extract is therefore most convincing for the period after 1502 rather than the reign as a whole.")]},
+{label:"Extract B",text:"It is easy to exaggerate the novelty of Henry VII's dealings with the nobility. Like any medieval king he needed the great lords to keep order in the shires and to raise armies. He rewarded loyalty generously with office and honour, and men such as the Earl of Oxford and Jasper Tudor were at the heart of his regime. The fines and bonds of the later years were unpopular, but they were tools for securing good behaviour rather than a campaign against the aristocracy as a class.",
+steps:[M("Argument","What is the extract's overall argument?",["Henry's kingship was traditional: he relied on and rewarded the nobility, and bonds were tools rather than an attack","Henry destroyed the power of the nobility","Henry's control relied on the Church","Henry ruled through Parliament"],0,"Key phrases: 'easy to exaggerate the novelty', 'like any medieval king', 'tools … rather than a campaign'."),
+X("Support",SUPQ,["Nobles led armies and kept order in the regions, e.g. in the Council of the North","Garter knighthoods and offices rewarded loyal nobles","Jasper Tudor was made Duke of Bedford","About 46 of 62 noble families were under financial bonds","The Act of Supremacy 1534"],[0,1,2],"The scale of the bonds challenges the claim that this was 'not a campaign'. The Act of Supremacy is from the wrong reign."),
+X("Challenge",CHQ,["Henry created very few new peers, so the peerage shrank","Empson and Dudley were executed in 1510, showing how hated their methods were","The bonds were so widespread that most noble families were affected","Oxford was trusted with major commands","The Amicable Grant of 1525"],[0,1,2],"Oxford supports Extract B. The Amicable Grant is Henry VIII and Wolsey."),
+M("Judgement","How convincing is Extract B overall?",["Partly convincing: accurate on reward and reliance, but it underplays how far financial coercion grew after 1502","Totally unconvincing","Convincing because it is more recent","Convincing because it mentions named nobles"],0,"Balance: credit what it gets right, then show what it underplays, with evidence."),
+W("Extract B argues that Henry VII's treatment of the nobility was traditional, relying on and rewarding great lords, with bonds simply used to secure good behaviour. This is convincing in that Henry did depend on nobles in the regions and in war, and figures such as Oxford and Jasper Tudor were rewarded with office and honour. However, the extract underplays the scale of financial coercion: most noble families were bound at some point, the Council Learned pursued them aggressively, and the swift execution of Empson and Dudley in 1510 shows how resented these methods were. B is therefore convincing for the early reign but less so after 1502.")]},
+{label:"Extract C",text:"The turning point came in 1502–03. The deaths of Prince Arthur and Queen Elizabeth left Henry with a single young heir and a dynasty that suddenly looked fragile. From then on, the king's grip tightened. Bonds multiplied, the Council Learned became more aggressive, and men close to the throne found themselves under suspicion. The cautious but conventional king of the 1490s gave way to a ruler who trusted fewer and fewer people.",
+steps:[M("Argument","What is the extract's overall argument?",["Henry's control of the nobility became much harsher after the dynastic crisis of 1502–03","Henry was always ruthless","Henry relaxed his control in later years","The nobility rebelled more after 1502"],0,"This is a change-over-time argument: identify the turning point and what changed."),
+X("Support",SUPQ,["Prince Arthur died in 1502 and Queen Elizabeth in 1503","The Yorkist Edmund de la Pole fled abroad in 1501, a continuing threat","Use of bonds increased sharply in the later reign","Lambert Simnel was defeated at Stoke in 1487","The Pilgrimage of Grace in 1536"],[0,1,2],"Simnel is early-reign context that doesn't support a post-1502 turning point. The Pilgrimage is Henry VIII."),
+X("Challenge",CHQ,["Sir William Stanley, close to the throne, was executed in 1495, showing suspicion before 1502","Henry backdated his reign to before Bosworth to attaint enemies in 1485","Attainders and bonds were already being used in the 1490s","Arthur's death left Henry with one male heir","The Six Articles in 1539"],[0,1,2],"Arthur's death supports C. The key challenge is that Henry was ruthless well before 1502."),
+M("Judgement","How convincing is Extract C overall?",["Mostly convincing: the chronology fits the evidence, though Henry was already ruthless before 1502 (e.g. Stanley, 1495)","Unconvincing: nothing changed in 1502","Convincing because it gives dates","Unconvincing because it doesn't mention Wolsey"],0,"A strong verdict accepts the argument's core and qualifies it with precise evidence."),
+W("Extract C argues that 1502–03 was a turning point, with Henry's control tightening after the deaths of Arthur and Elizabeth. This is largely convincing: with only one young heir and Yorkist claimants such as Edmund de la Pole abroad, the dynasty looked vulnerable, and the use of bonds and the activity of the Council Learned increased markedly afterwards. However, the extract overstates the contrast with the 1490s. Henry had already shown ruthlessness towards men close to the throne, executing Sir William Stanley in 1495, and he had used attainders from the start of the reign. C is convincing on the intensification of control, less so on the idea of a sudden change.")]}
+]},
+{id:"t2",title:"Henry VIII and religion",m:30,kind:"interp",q:"Using your understanding of the historical context, assess how convincing the arguments in these three extracts are in relation to Henry VIII's religious changes, 1529–47.",
+items:[
+{label:"Extract A",text:"The break with Rome was not the product of religious conviction. Henry wanted a son and a new wife, and when the pope would not give him an annulment he found another route. Every major step between 1529 and 1534 can be traced back to the 'Great Matter'. Had Clement VII been free of Charles V's influence, England might well have remained within the Roman Church.",
+steps:[M("Argument","What is the extract's overall argument?",["The break with Rome was driven by the annulment and the need for an heir, not religion","Henry was a committed Protestant","The break was driven by Parliament","Henry wanted the Church's wealth"],0,"The 'Great Matter' is the annulment of Henry's marriage to Catherine of Aragon."),
+X("Support",SUPQ,["Charles V, Catherine's nephew, dominated Rome after the sack of 1527","The Act in Restraint of Appeals (1533) let Cranmer annul the marriage","Anne Boleyn was pregnant by early 1533, creating urgency","The dissolution brought the Crown huge wealth","The Six Articles (1539)"],[0,1,2],"Wealth points to a different motive. The Six Articles are about doctrine later on."),
+X("Challenge",CHQ,["Henry never returned to Rome even after Anne's death in 1536","The dissolution and Valor Ecclesiasticus show a desire for Church wealth","Henry's 'imperial' claims went far beyond what an annulment needed","Wolsey fell in 1529 after failing to secure the annulment","Thomas More resigned as Lord Chancellor in 1532"],[0,1,2],"Wolsey's fall supports A. More's resignation is broadly neutral."),
+M("Judgement","How convincing is Extract A overall?",["Partly convincing: the annulment explains the timing, but the scope and permanence of the supremacy suggest power and wealth mattered too","Fully convincing","Unconvincing: the annulment was irrelevant","Unconvincing because it is too short"],0,"Distinguish the trigger (annulment) from the wider motives that sustained the change."),
+W("Extract A argues that the break with Rome was driven by Henry's need for an annulment rather than by religious conviction. This is convincing as an explanation of timing: Charles V's control over Clement VII after 1527 blocked the annulment, and the Act in Restraint of Appeals in 1533 was passed so that Cranmer could annul the marriage once Anne was pregnant. However, the extract is less convincing as a full explanation. Henry never returned to Rome after Anne's execution in 1536, and the supremacy was used to seize monastic wealth, which suggests that power and money became motives in their own right.")]},
+{label:"Extract B",text:"Once Henry had tasted supremacy, he would not give it up. The Royal Supremacy gave the Crown control over the Church's courts, its appointments and, above all, its wealth. The dissolution of the monasteries transferred vast estates to the king. Religion was a means to royal power; the doctrinal swings of the 1530s and 1540s followed political convenience rather than belief.",
+steps:[M("Argument","What is the extract's overall argument?",["Power and wealth drove Henry's religious policy, and doctrine followed politics","Henry was driven by sincere Catholic belief","Henry's ministers controlled religious policy","The Church reformed itself"],0,"Look at the last sentence: 'religion was a means to royal power'."),
+X("Support",SUPQ,["The Valor Ecclesiasticus (1535) and dissolutions (1536, 1539) transferred huge wealth","The Treason Act (1534) enforced acceptance of the supremacy","More and Fisher were executed in 1535 for refusing to accept it","Henry personally edited the King's Book (1543)","The Amicable Grant (1525)"],[0,1,2],"Henry's personal involvement in doctrine challenges B. The Amicable Grant is the wrong topic."),
+X("Challenge",CHQ,["Henry wrote a defence of the sacraments in 1521 and was named 'Defender of the Faith'","Henry personally shaped doctrine, e.g. the King's Book of 1543","Much monastic land was sold off quickly, not kept","The Court of Augmentations managed monastic income","The Treason Act 1534"],[0,1,2],"The Court of Augmentations and the Treason Act support B's argument about power and wealth."),
+M("Judgement","How convincing is Extract B overall?",["Partly convincing on outcomes (wealth, control), but it underrates Henry's personal theological convictions","Fully convincing","Unconvincing: Henry gained no wealth","Unconvincing because it ignores Wolsey"],0,"Credit its strengths, then use Henry's personal theology to qualify it."),
+W("Extract B argues that Henry's religious policy was driven by the desire for power and wealth, with doctrine following political convenience. This is convincing about the consequences of the supremacy: the Valor Ecclesiasticus and the dissolutions transferred enormous wealth to the Crown, and the Treason Act and the executions of More and Fisher show the supremacy being enforced ruthlessly. However, the claim that doctrine simply followed convenience is less convincing. Henry had a genuine interest in theology, from his 1521 defence of the sacraments to his personal editing of the King's Book in 1543, and much monastic land was quickly sold rather than kept.")]},
+{label:"Extract C",text:"Henry VIII's Church remained recognisably Catholic. The mass, transubstantiation and clerical celibacy survived, and the Act of Six Articles of 1539 enforced them with the threat of death. What changed was who stood at its head. Reformers such as Cranmer won occasional victories, like the English Bible, but by the King's Book of 1543 the tide had turned firmly back towards tradition.",
+steps:[M("Argument","What is the extract's overall argument?",["Henry's Church stayed Catholic in doctrine: 'Catholicism without the pope'","Henry created a Protestant Church","The reformers won","The Church of England was abolished"],0,"Change of headship, continuity of doctrine."),
+X("Support",SUPQ,["The Act of Six Articles (1539) upheld transubstantiation and clerical celibacy","The King's Book (1543) was doctrinally conservative","The Act for the Advancement of True Religion (1543) restricted Bible reading","The Ten Articles (1536) recognised only three sacraments","The 1538 Injunctions ordered an English Bible in every parish"],[0,1,2],"The Ten Articles and the Injunctions both show reform, so they challenge C."),
+X("Challenge",CHQ,["The Ten Articles (1536) recognised only three sacraments","The 1538 Injunctions attacked shrines and pilgrimages and ordered an English Bible","The monasteries were dissolved, ending English monasticism","The Six Articles (1539)","Henry burned Protestant heretics"],[0,1,2],"The Six Articles and the burning of Protestants support C's argument."),
+M("Judgement","How convincing is Extract C overall?",["Largely convincing on doctrine, but it understates real changes in practice (monasteries, shrines, the English Bible) that opened the way for Protestantism","Unconvincing: Henry was a Protestant","Fully convincing: nothing changed","Unconvincing because it ignores money"],0,"Distinguish doctrine (belief) from practice (what people experienced in parishes)."),
+W("Extract C argues that Henry's Church remained Catholic in doctrine, with only the headship changing. This is largely convincing: the Six Articles of 1539 enforced transubstantiation and clerical celibacy on pain of death, and the King's Book and the Act for the Advancement of True Religion in 1543 marked a conservative turn. However, the extract understates the real changes to religious practice. The Ten Articles reduced the sacraments to three, the 1538 Injunctions attacked shrines and ordered an English Bible in every parish, and the dissolution ended monasticism. These changes made later Protestant reform under Edward VI far easier.")]}
+]}],
+russia:[
+{id:"r1",title:"The NEP, 1921–28",m:25,kind:"source",q:"With reference to these sources and your understanding of the historical context, assess the value of these three sources to an historian studying the New Economic Policy.",
+items:[
+{label:"Source A",prov:"Practice source: from a speech by a senior Bolshevik leader to the 10th Party Congress, March 1921.",text:"We must be honest: the peasantry is not satisfied with the relations we have had with it. Kronstadt has shown us this. We cannot go on taking grain by force. We shall replace requisitioning with a tax, and let the peasant trade what remains. This is a retreat, comrades, but a temporary one, so that we may later advance. The commanding heights of the economy will remain in our hands.",
+steps:[M("Provenance: value","What does the provenance make this source valuable for?",["A senior leader at the Congress that launched the NEP reveals the official reasoning and justification at the time","It is neutral and objective","It was written with hindsight","It is a private letter, so it must be honest"],0,"Who, when, where and to whom: an insider at the moment of decision."),
+M("Provenance: limitation","What is its main limitation?",["Speaking to a divided party, he needs to justify an ideological retreat, so he presents the NEP as 'temporary' and may downplay how desperate things were","It was written by a foreigner","It is too late to be useful","Speeches are always false"],0,"Think purpose and audience: persuading Bolsheviks uneasy about the return of capitalism."),
+X("Context",'Tick ALL the context that confirms the source\'s content',["The Kronstadt mutiny in March 1921 shocked the leadership","A tax in kind replaced grain requisitioning","Heavy industry, banks and foreign trade stayed under state control","The NEP allowed large private factories to be privatised","Collectivisation began in 1921"],[0,1,2],"Only small businesses were privatised. Collectivisation came in 1929."),
+M("Judgement","Overall value for studying the NEP?",["High value for the government's motives and how the NEP was sold to the party, but less for how it worked in practice","No value because it's propaganda","Complete value: it tells us everything","Low value because it is only a speech"],0,"Value is always for this enquiry. Say what it is good for and what it is not."),
+W("Source A is valuable for revealing why the Bolshevik leadership introduced the NEP. Delivered at the 10th Party Congress in March 1921, it shows the immediate reaction to the Kronstadt mutiny and the decision to replace requisitioning with a tax in kind, while keeping the 'commanding heights' in state hands. Its purpose, persuading a party that saw the NEP as a betrayal, explains the stress on a 'temporary retreat'. This may play down the scale of the crisis, which included famine and peasant revolts such as Tambov. It is therefore highly valuable for official motives, less so for the NEP's effects.")]},
+{label:"Source B",prov:"Practice source: a letter from a Petrograd factory worker to his brother in the countryside, 1922.",text:"The shops are full again, but who can buy? The Nepmen ride in carriages and eat in restaurants while we wait for our wages. My mates ask what we fought the Whites for. They say the bourgeois have come back through the back door. You in the village at least can sell your grain.",
+steps:[M("Provenance: value","What does the provenance make this source valuable for?",["A private letter from an ordinary worker gives an urban, non-official view that is unlikely to have been written as propaganda","It represents all Soviet workers","It was written by a government official","It is a statistical report"],0,"Private and personal: the value lies in genuine feeling."),
+M("Provenance: limitation","What is its main limitation?",["One individual in Petrograd: it may be exaggerated in anger and may not be typical of all workers or of the countryside","It was written too early","Letters can't be used by historians","It is propaganda"],0,"Typicality and emotional tone are the key limitations of a personal source."),
+X("Context",'Tick ALL the context that confirms the source\'s content',["Nepmen (private traders) were widely resented","Urban unemployment rose under the NEP","Peasants could sell their surplus on the market","Food shortages were worse in 1922 than in 1920","The First Five-Year Plan began in 1922"],[0,1,2],"Supplies improved under the NEP. The Five-Year Plan began in 1928."),
+M("Judgement","Overall value?",["Valuable for working-class resentment and ideological unease about the NEP, but limited in how typical it is","No value: it's just one person","The most valuable source because it is honest","Only valuable for the Civil War"],0,"Tie the value back to the NEP: it shows its social and political tensions."),
+W("Source B is valuable for showing how some urban workers experienced the NEP. As a private letter written in 1922, it is unlikely to be propaganda, and its anger at Nepmen 'in carriages' reflects real resentment of private traders and the rise in urban unemployment under the NEP. Its sense that 'the bourgeois have come back' mirrors the ideological unease within the party itself. However, it is one worker's view from Petrograd, written in frustration, and it ignores the NEP's success in restoring supplies. It is valuable for attitudes, less for economic outcomes.")]},
+{label:"Source C",prov:"Practice source: from a confidential report by a local Soviet official on grain markets in the Volga region, 1925.",text:"Harvests have recovered and the markets are busy. However, a stratum of richer peasants is emerging, hiring labour and holding back grain until prices rise. Poorer peasants grow resentful. Unless action is taken, the towns may again face shortages.",
+steps:[M("Provenance: value","What does the provenance make this source valuable for?",["A confidential internal report based on local observation, so the official had less reason to give a rosy, propagandist picture","It was published to persuade the public","It was written by a kulak","It covers the whole USSR"],0,"Confidential plus first-hand equals candour."),
+M("Provenance: limitation","What is its main limitation?",["It covers one region, and the official may stress the kulak 'problem' to fit party ideology or please superiors","It is too short","It was written after the NEP ended","Officials never tell the truth"],0,"Ideology shapes what officials notice and report."),
+X("Context",'Tick ALL the context that confirms the source\'s content',["Agricultural output was close to 1913 levels by the mid-1920s","Peasants withheld grain when prices were low (e.g. the scissors crisis, 1923)","A grain procurement crisis hit in 1927–28","Hiring labour was banned for peasants throughout the NEP","Collectivisation was complete by 1925"],[0,1,2],"Hiring labour was permitted from 1925. Collectivisation came after 1929."),
+M("Judgement","Overall value?",["Highly valuable for showing both the NEP's success and the tensions that led to its abandonment","No value: it's from one region","Only valuable for collectivisation","Low value because it is confidential"],0,"It links the NEP's recovery to the 1928 'Great Turn'."),
+W("Source C is highly valuable for assessing the NEP because it shows both its success and its emerging problems. As a confidential report, the official had little reason to exaggerate, and the recovery of harvests matches the return of output to near 1913 levels by the mid-1920s. The warning about richer peasants holding back grain anticipates the procurement crisis of 1927–28 that Stalin used to justify ending the NEP. However, it covers one region, and its focus on a kulak 'stratum' may reflect party ideology. Overall it is valuable for explaining why the NEP was abandoned.")]}
+]},
+{id:"r2",title:"The Stakhanovite movement",m:25,kind:"source",q:"With reference to these sources and your understanding of the historical context, assess the value of these three sources to an historian studying the effectiveness of the Stakhanovite movement.",
+items:[
+{label:"Source A",prov:"Practice source: from a front-page article in a Soviet national newspaper, September 1935.",text:"The miner Stakhanov has shown what the Soviet worker can do when freed from capitalist exploitation. In one shift he cut 102 tonnes of coal, fourteen times the norm. Across the Union, workers are rising to his challenge. Old norms are being smashed; the slackers and the doubters are being swept aside.",
+steps:[M("Provenance: value","What does the provenance make this source valuable for?",["The official press shows how the regime wanted the movement presented and the message it sent to workers","It is objective economic data","It was written by Stakhanov's enemies","It is a secret report"],0,"Official newspaper equals regime intentions and propaganda techniques."),
+M("Provenance: limitation","What is its main limitation?",["As state-controlled propaganda it hides that the record was staged, with helpers doing the support work","It is too late to be useful","It was written abroad","It is only about steel"],0,"The record shift was carefully prepared. The press would never admit that."),
+X("Context",'Tick ALL the context that confirms the source\'s content',["Stakhanov cut 102 tonnes on 31 August 1935","Stakhanovites were rewarded with bonuses, better housing and holidays","The Second Five-Year Plan stressed raising productivity","Stakhanov worked at the Magnitogorsk steelworks","The movement began in 1928"],[0,1,2],"Stakhanov was a coal miner in the Donbas. The movement began in 1935."),
+M("Judgement","Overall value for studying effectiveness?",["Valuable as evidence of the regime's propaganda aims, but weak evidence of actual effectiveness","Highly valuable: it proves the movement worked","No value at all","Valuable only for collectivisation"],0,"A source can be valuable even when it is unreliable, if you ask the right question of it."),
+W("Source A has value mainly as evidence of how the regime promoted the Stakhanovite movement. Published in a national newspaper days after Stakhanov's record of 102 tonnes in August 1935, it shows the propaganda aim of shaming 'slackers' and pushing all workers to beat their norms, in line with the Second Five-Year Plan's focus on productivity. However, as state propaganda it conceals that the record was staged with assistants and the best seam, and its claim that workers everywhere were 'rising to the challenge' cannot be trusted. It is valuable for the regime's aims, not for the movement's real effectiveness.")]},
+{label:"Source B",prov:"Practice source: from the memoirs of a former Donbas miner who left the USSR, published in the West in 1952.",text:"When the Stakhanovites came, our lives grew harder. The norms were raised for everyone because of a few men given the best seams and helpers. Some of the lads hid tools from the record-breakers; one was beaten in the washroom. We earned less for more work.",
+steps:[M("Provenance: value","What does the provenance make this source valuable for?",["An eyewitness worker's view from inside a mine, free from Soviet censorship","It is official Soviet data","It was written in 1935","It reflects the views of all workers"],0,"Insider plus uncensored equals the ordinary worker's experience."),
+M("Provenance: limitation","What is its main limitation?",["Written years later and published in the West during the Cold War by someone who left the USSR, so memory and hostility may shape it","It is propaganda for Stalin","Miners didn't understand the movement","It is too short"],0,"Date, place of publication and the author's motives all matter."),
+X("Context",'Tick ALL the context that confirms the source\'s content',["Work norms were raised across industry in 1936","Some Stakhanovites were attacked by fellow workers","Living standards and real wages were low in the 1930s","Trade unions organised strikes to stop the movement","The movement was abolished in 1936"],[0,1,2],"Independent unions and strikes were impossible under Stalin."),
+M("Judgement","Overall value?",["Valuable for ordinary workers' experience and resentment, but it must be weighed against its Cold War origins","Worthless because it is anti-Soviet","Completely reliable because it is an eyewitness account","Only valuable for agriculture"],0,"Balance provenance against corroborating context."),
+W("Source B is valuable for showing the movement's impact on ordinary workers. As a miner's eyewitness account, free from Soviet censorship, it reveals resentment that official sources hide, and its claims are supported by the raising of norms across industry in 1936 and reports of attacks on Stakhanovites. However, it was published in the West in 1952, during the Cold War, by someone who had left the USSR. Hindsight and hostility may shape it. It is valuable for showing the movement's costs and limited popularity, which suggests it was less effective than the regime claimed.")]},
+{label:"Source C",prov:"Practice source: from an internal report by a factory director to the People's Commissariat of Heavy Industry, 1936.",text:"The movement has raised output in several shops by 20–30%. However, record attempts disrupt the work of other brigades, equipment is wearing out faster, and quality has fallen. Some foremen fear being labelled saboteurs if they object.",
+steps:[M("Provenance: value","What does the provenance make this source valuable for?",["An internal report to the ministry, with practical concerns, so it is less propagandist and based on direct managerial knowledge","It is a public newspaper","It was written by a foreign journalist","It covers all of Soviet industry"],0,"Internal plus practical equals frank."),
+M("Provenance: limitation","What is its main limitation?",["One factory, and a director might exaggerate successes to protect himself or blame problems on others","It was written too late","It is fiction","Directors didn't know about output"],0,"Self-interest in a climate of fear (the 1936 purges)."),
+X("Context",'Tick ALL the context that confirms the source\'s content',["Productivity rose in some sectors during the Second Five-Year Plan","Breakages and poor quality were common problems","Accusations of 'wrecking' and sabotage grew as the purges began","Gosplan was abolished in 1936","The movement applied only to agriculture"],[0,1,2],"Gosplan continued. The movement spread across industry."),
+M("Judgement","Overall value?",["Highly valuable: balanced and specific, showing both gains and costs","No value: it's only one factory","Low value because it is internal","Only valuable for the Civil War"],0,"This is often the 'most valuable' source: balanced, specific and frank."),
+W("Source C is the most valuable of the three for judging the movement's effectiveness. As an internal report to the Commissariat, it is frank and specific: it acknowledges real output gains of 20–30%, consistent with productivity rises during the Second Five-Year Plan, but also records disruption, equipment wear and falling quality. Its reference to foremen fearing the 'saboteur' label reflects the growing climate of the purges. Its limitations are that it covers one factory and that the director may present results to protect himself. Overall it suggests the movement raised output in places, at significant cost.")]}
+]}],
+maths:[
+{id:"m1",title:"Cubic: stationary points & area",q:"The curve C has equation y = x³ – 6x² + 9x + 1.",parts:[
+{p:"(a) Find the x-coordinate of the local maximum.",m:4,ans:1,hint:["Differentiate and set dy/dx = 0.","3x² – 12x + 9 = 0 → x² – 4x + 3 = 0"],sol:["dy/dx = 3x² – 12x + 9 = 3(x – 1)(x – 3) = 0","x = 1 or x = 3","d²y/dx² = 6x – 12. At x = 1 it equals –6 < 0, so it's a maximum.","<b>x = 1</b>"]},
+{p:"(b) Find the y-coordinate of the local maximum.",m:1,ans:5,hint:["Substitute x = 1 into the original equation."],sol:["y = 1 – 6 + 9 + 1 = <b>5</b>"]},
+{p:"(c) Find the exact area between C, the x-axis and the lines x = 0 and x = 3.",m:4,ans:9.75,hint:["C is above the x-axis on [0, 3] (minimum y = 1 at x = 3).","Integrate term by term, then substitute the limits."],sol:["∫₀³ (x³ – 6x² + 9x + 1) dx = [x⁴/4 – 2x³ + 9x²/2 + x]₀³","= 81/4 – 54 + 81/2 + 3","= <b>39/4 = 9.75</b>"]}]},
+{id:"m2",title:"Trig equation via identity",q:"Solve 2sin²x + 3cos x = 0 for 0° ≤ x < 360°.",parts:[
+{p:"(a) Using sin²x = 1 – cos²x, the equation becomes 2cos²x – 3cos x – 2 = 0. Solve for cos x. Enter the valid value.",m:2,ans:-0.5,hint:["Factorise: (2cos x + 1)(cos x – 2) = 0","cos x = 2 is impossible."],sol:["2 – 2cos²x + 3cos x = 0 → 2cos²x – 3cos x – 2 = 0","(2cos x + 1)(cos x – 2) = 0","cos x = 2 has no solutions, so <b>cos x = –½</b>"]},
+{p:"(b) Give the smaller solution for x (degrees).",m:1,ans:120,hint:["cos⁻¹(–½) = 120°"],sol:["x = <b>120°</b>"]},
+{p:"(c) Give the larger solution for x (degrees).",m:1,ans:240,hint:["Use the symmetry of cos: 360° – 120°."],sol:["x = 360° – 120° = <b>240°</b>"]}]},
+{id:"m3",title:"Exponential growth model",q:"A population is modelled by P = 500e<sup>0.04t</sup>, where t is in years.",parts:[
+{p:"(a) State the initial population.",m:1,ans:500,hint:["Put t = 0: e⁰ = 1."],sol:["P = 500e⁰ = <b>500</b>"]},
+{p:"(b) Find P when t = 10, to the nearest whole number.",m:2,ans:746,tol:0.6,hint:["500e<sup>0.4</sup>"],sol:["P = 500e<sup>0.4</sup> = 745.9…","<b>746</b>"]},
+{p:"(c) Find the time taken for the population to double (1 d.p.).",m:3,ans:17.3,tol:0.06,hint:["Set 500e<sup>0.04t</sup> = 1000, then take ln of both sides."],sol:["e<sup>0.04t</sup> = 2","0.04t = ln 2","t = ln 2 / 0.04 = 17.33… ≈ <b>17.3 years</b>"]},
+{p:"(d) Find the rate of increase when t = 10 (1 d.p.).",m:2,ans:29.8,tol:0.06,hint:["dP/dt = 0.04 × 500e<sup>0.04t</sup> = 20e<sup>0.04t</sup>"],sol:["dP/dt = 20e<sup>0.4</sup> = 29.83…","≈ <b>29.8 per year</b>"]}]},
+{id:"m4",title:"Integration by parts & substitution",q:"Evaluate the following integrals.",parts:[
+{p:"(a) ∫₁<sup>e</sup> x ln x dx (3 d.p.)",m:5,ans:2.097,tol:0.002,hint:["Use u = ln x, dv/dx = x (LATE: logs first).","= (x²/2)ln x – ∫ x/2 dx"],sol:["= [ (x²/2)ln x – x²/4 ]₁<sup>e</sup>","= (e²/2 – e²/4) – (0 – ¼)","= (e² + 1)/4 ≈ <b>2.097</b>"]},
+{p:"(b) ∫₀² x√(x² + 5) dx, using u = x² + 5 (3 d.p.)",m:5,ans:5.273,tol:0.002,hint:["du = 2x dx, so x dx = ½ du.","New limits: x = 0 → u = 5, x = 2 → u = 9"],sol:["= ½ ∫₅⁹ u<sup>½</sup> du = ⅓ [u<sup>3/2</sup>]₅⁹","= ⅓ (27 – 5√5)","≈ <b>5.273</b>"]}]},
+{id:"m5",title:"General binomial expansion",q:"f(x) = (1 – 4x)<sup>½</sup>",parts:[
+{p:"(a) The expansion up to x² is 1 + Ax + Bx². Enter A.",m:1,ans:-2,hint:["The x term is n(–4x) with n = ½."],sol:["½ × (–4x) = –2x, so <b>A = –2</b>"]},
+{p:"(b) Enter B.",m:2,ans:-2,hint:["n(n – 1)/2! × (–4x)²"],sol:["(½)(–½)/2 × 16x² = –2x², so <b>B = –2</b>"]},
+{p:"(c) The expansion is valid for |x| < k. Enter k.",m:1,ans:0.25,hint:["|4x| < 1"],sol:["|–4x| < 1, so |x| < ¼. <b>k = 0.25</b>"]},
+{p:"(d) Use x = 0.01 in your expansion to estimate √0.96 (4 d.p.).",m:2,ans:0.9798,tol:0.00006,hint:["1 – 2(0.01) – 2(0.01)²"],sol:["1 – 0.02 – 0.0002 = <b>0.9798</b> (the true value is 0.97979…)"]}]},
+{id:"m6",title:"Circle from a diameter",q:"Points A(1, 2) and B(7, 10) are the ends of a diameter of circle C.",parts:[
+{p:"(a) Find the gradient of AB.",m:1,ans:4/3,tol:0.01,hint:["(y₂ – y₁)/(x₂ – x₁)"],sol:["8/6 = <b>4/3</b>"]},
+{p:"(b) The centre is (p, q). Enter p + q.",m:1,ans:10,hint:["The centre is the midpoint of AB."],sol:["Midpoint (4, 6), so p + q = <b>10</b>"]},
+{p:"(c) The equation is (x – 4)² + (y – 6)² = r². Enter r².",m:2,ans:25,hint:["The radius is half of AB. AB = √(6² + 8²)"],sol:["AB = 10, so r = 5","<b>r² = 25</b>"]},
+{p:"(d) Find the y-intercept of the tangent to C at B.",m:3,ans:15.25,tol:0.01,hint:["The tangent is perpendicular to the radius. The radius from (4, 6) to B has gradient 4/3.","Tangent gradient = –3/4. Substitute B(7, 10)."],sol:["Tangent: y – 10 = –¾(x – 7)","y = –¾x + 61/4","y-intercept = <b>61/4 = 15.25</b>"]}]}
+]};
+
+/* ---------- EXAM SKILLS UI ---------- */
+let K=null;
+function skillsList(){
+  if(sub==="econ"){$("app").innerHTML=`<div class="card" style="text-align:center"><div class="big">🎓</div><b>Exam skills is for History and Maths</b><p class="hint">Tudors: interpretation extracts. Russia: source analysis. Maths: multi-part exam questions.</p></div>`;return}
+  const list=SK[sub],p=prog();p.s=p.s||{};
+  const intro=sub==="maths"?"Multi-part exam questions. Type your answer to each part to check it, use hints if you're stuck, and see the full method.":sub==="tudors"?"Question 1 (30 marks): interpretations. Work through each extract: argument, support, challenge, judgement, then write the paragraph.":"Question 1 (25 marks): source value. Work through each source: provenance, limitation, context, judgement, then write the paragraph.";
+  $("app").innerHTML=`<div class="card"><div class="sect" style="margin-top:0">How it works</div><p class="hint" style="margin:0">${intro}</p></div>`+list.map(s=>{const r=p.s[s.id];return`<button class="card setc" onclick="openSet('${s.id}')"><div class="meta"><span class="pill">${sub==="maths"?s.parts.length+" parts":s.items.length+(s.kind==="interp"?" extracts":" sources")}</span>${s.m?`<span class="pill g">${s.m} marks</span>`:""}${r?`<span class="pill m">Best ${r.best}%</span>`:'<span class="pill g">Not started</span>'}</div><div class="q" style="margin:0">${s.title}</div></button>`}).join("");
+}
+function openSet(id){const s=SK[sub].find(x=>x.id===id);K={s,item:0,step:0,res:{},sel:[],score:0,max:0,part:0};window.scrollTo(0,0);sub==="maths"?renderMq():renderK()}
+function kSave(){const p=prog();p.s=p.s||{};const pct=K.max?Math.round(K.score/K.max*100):0,r=p.s[K.s.id]||(p.s[K.s.id]={best:0,n:0});r.n++;r.best=Math.max(r.best,pct);r.last=pct;markDay();save()}
+function renderK(){
+  if(mode!=="skills"||!K)return;
+  const s=K.s,full=K.item>=s.items.length;
+  const tabs=`<div class="seg">${s.items.map((it,i)=>`<button class="${i===K.item?'on':''}" onclick="K.item=${i};K.step=0;K.sel=[];renderK()">${it.label.replace("Extract ","").replace("Source ","")}</button>`).join("")}<button class="${full?'on':''}" onclick="K.item=${s.items.length};renderK()">Full answer</button></div>`;
+  const head=`<button class="link" onclick="K=null;skillsList()">← All sets</button><div class="card"><div class="meta"><span class="pill">${s.title}</span><span class="pill g">${s.m} marks</span></div><div style="font-weight:600">${s.q}</div>${s.kind==="source"?'<p class="hint" style="margin:8px 0 0">These sources were written for practice, modelled on the kinds AQA uses. They aren\'t real documents.</p>':'<p class="hint" style="margin:8px 0 0">These extracts were written for practice, in the style of AQA interpretations. Judge content against context, never provenance.</p>'}</div>`;
+  if(full){$("app").innerHTML=head+tabs+fullAnswer();return}
+  const it=s.items[K.item],R=K.res[K.item]||(K.res[K.item]={});
+  let html=`<div class="card"><div class="sect" style="margin-top:0">${it.label}</div>${it.prov?`<div class="prov">${it.prov}</div>`:""}<blockquote class="ext">${it.text}</blockquote></div>`;
+  it.steps.forEach((st,i)=>{
+    if(i>K.step)return;
+    const done=R[i]!==undefined,cur=i===K.step&&!done;
+    html+=`<div class="card stepc ${done?'done':''}"><div class="meta"><span class="pill">Step ${i+1} of ${it.steps.length}</span><span class="pill g">${st.h}</span></div>`;
+    const ok_="o"+K.item+"_"+i;K.ord=K.ord||{};const ord=st.o?(K.ord[ok_]||(K.ord[ok_]=shuffle(st.o.map((_,x)=>x)))):[];
+    if(st.k==="mcq"){html+=`<div class="q">${st.q}</div>`+ord.map((j,n)=>{const o=st.o[j];let c="";if(done){if(j===st.a)c="ok";else if(j===R[i].pick)c="bad"}return`<button class="opt ${c}" ${done?"disabled":""} onclick="kMcq(${i},${j})"><span class="k">${"ABCD"[n]}</span><span>${o}</span></button>`}).join("");
+      if(done)html+=`<div class="exp"><b>${R[i].ok?"✓ Correct.":"✗ Not quite."}</b> ${st.e}</div>`}
+    else if(st.k==="multi"){html+=`<div class="q">${st.q}</div><div class="chips">`+ord.map(j=>{const o=st.o[j];const on=done?R[i].pick.includes(j):K.sel.includes(j);let c=on?"on":"";if(done){const right=st.c.includes(j);c=on&&right?"ok":on&&!right?"bad":!on&&right?"miss":""}return`<button class="chipx ${c}" ${done?"disabled":""} onclick="kTog(${j})">${o}</button>`}).join("")+`</div>`;
+      if(done)html+=`<div class="exp"><b>${R[i].ok?"✓ All correct.":"✗ Not quite."}</b> ${st.e}${R[i].ok?"":'<br><span class="hint">Dashed green = points you missed.</span>'}</div>`;
+      else html+=`<div class="btns"><button class="btn" ${K.sel.length?"":"disabled"} onclick="kMulti(${i})">Check</button></div>`}
+    else{const key=s.id+":"+K.item;html+=`<div class="q">Now write your paragraph on ${it.label}</div><p class="hint">${s.kind==="interp"?"Argument, then support, then challenge, then judgement. Aim for 120–180 words.":"Provenance value and limits, then content checked against context, then overall value for this enquiry. Aim for 120–180 words."}</p>
+      <textarea id="kans" oninput="DRAFT['${key}']=this.value" placeholder="Write your paragraph…">${esc(DRAFT[key]||"")}</textarea>
+      <div class="btns">${AI?`<button class="btn" id="kmark" onclick="kMark()">🧑‍🏫 Mark my paragraph</button>`:""}<button class="btn ghost" onclick="K.showModel=!K.showModel;renderK()">${K.showModel?"Hide":"Show"} model paragraph</button></div><div id="kmk"></div>
+      ${K.showModel?`<div class="model"><b>Model paragraph</b><br>${st.model}</div>`:""}
+      <div class="btns">${K.item+1<s.items.length?`<button class="btn" onclick="K.item++;K.step=0;K.sel=[];K.showModel=false;renderK();scrollTo(0,0)">Next: ${s.items[K.item+1].label} →</button>`:`<button class="btn" onclick="K.item=${s.items.length};renderK();scrollTo(0,0)">Full answer →</button>`}</div>`}
+    html+=`</div>`;
+  });
+  const st=it.steps[K.step];if(st&&R[K.step]!==undefined&&st.k!=="write")html+=`<div class="btns"><button class="btn" onclick="K.step++;K.sel=[];renderK();setTimeout(()=>{const c=document.querySelectorAll('.stepc');c[c.length-1].scrollIntoView({behavior:'smooth',block:'start'})},30)">Next step →</button></div>`;
+  $("app").innerHTML=head+tabs+html;
+}
+function kMcq(i,j){const st=K.s.items[K.item].steps[i],ok=j===st.a;K.res[K.item][i]={pick:j,ok};K.max++;if(ok)K.score++;renderK();kCheckEnd()}
+function kTog(j){const k=K.sel.indexOf(j);k<0?K.sel.push(j):K.sel.splice(k,1);renderK()}
+function kMulti(i){const st=K.s.items[K.item].steps[i],pick=K.sel.slice(),ok=pick.length===st.c.length&&st.c.every(c=>pick.includes(c));K.res[K.item][i]={pick,ok};K.max++;if(ok)K.score++;K.sel=[];renderK();kCheckEnd()}
+function kCheckEnd(){const s=K.s,allDone=s.items.every((it,ii)=>it.steps.every((st,si)=>st.k==="write"||(K.res[ii]&&K.res[ii][si]!==undefined)));if(allDone&&!K.saved){K.saved=true;kSave()}}
+function fullAnswer(){
+  const s=K.s,key=s.id+":full",pct=K.max?Math.round(K.score/K.max*100):null;
+  return`<div class="card">${pct!==null?`<div class="meta"><span class="pill m">Skill checks: ${K.score}/${K.max}</span></div>`:""}<div class="q">Write the full answer</div>
+  <p class="hint">${s.kind==="interp"?"AQA Q1: treat each extract in turn (no need to compare them). For each one: argument, support, challenge, and how convincing it is. About 45–60 minutes.":"AQA Q1: assess each source's value for the enquiry: provenance, tone and emphasis, content against context. No overall comparison is needed. About 60 minutes."}</p>
+  <textarea id="kfull" style="min-height:220px" oninput="DRAFT['${key}']=this.value" placeholder="Your full answer…">${esc(DRAFT[key]||"")}</textarea>
+  <div class="btns">${AI?`<button class="btn" id="kfm" onclick="kMarkFull()">🧑‍🏫 Mark my full answer (/${s.m})</button>`:""}<button class="btn ghost" onclick="K=null;skillsList()">Back to sets</button></div><div id="kfmk"></div></div>`;
+}
+async function aiMark(prompt,out,btn,label){
+  if(!AI)return null;btn.disabled=true;btn.textContent="Marking…";out.innerHTML='<div class="ai">Reading…</div>';let r=null;
+  try{r=await AI(prompt,{modelTier:"default",onText:({text})=>{out.innerHTML='<div class="ai">'+md(text)+'</div>'}})}
+  catch(e){out.innerHTML='<div class="ai">'+(e&&e.code==="rate_limited"?"Claude's busy. Try again in a minute.":"Couldn't reach Claude just now.")+'</div>';if(e&&e.code==="not_granted")AI=null}
+  btn.disabled=false;btn.textContent=label;return r;
+}
+function kMark(){
+  const s=K.s,it=s.items[K.item],txt=($("kans").value||"").trim(),out=$("kmk");
+  if(txt.length<40){out.innerHTML='<div class="ai">Write a fuller paragraph first (aim for 120+ words).</div>';return}
+  const model=it.steps.find(x=>x.k==="write").model;
+  aiMark(`You are an experienced AQA A-level History examiner. A student has written ONE paragraph of a ${s.kind==="interp"?"Question 1 interpretations answer (AO3: analyse and evaluate interpretations using context; never reward provenance)":"Question 1 source-evaluation answer (AO2: assess value of primary sources using provenance, tone, emphasis and context)"}.
+Question: ${s.q}
+${it.label}${it.prov?" ("+it.prov+")":""}: "${it.text}"
+Model paragraph for reference: "${model}"
+Student paragraph: """${txt.slice(0,4000)}"""
+Reply in UK English, under 200 words, exactly in this format:
+**Verdict:** Level 1–5 quality for this paragraph, plus one sentence why
+**Strengths**
+- 2 bullets
+**Fix these**
+- 3 specific bullets (e.g. missing argument, vague evidence, no judgement, comparing extracts, judging provenance for interpretations)
+**Upgrade** rewrite their weakest sentence better.`,out,$("kmark"),"🧑‍🏫 Mark again");
+}
+async function kMarkFull(){
+  const s=K.s,txt=($("kfull").value||"").trim(),out=$("kfmk");
+  if(txt.length<200){out.innerHTML='<div class="ai">Write more first. A full answer is usually 600+ words.</div>';return}
+  const r=await aiMark(`You are an experienced AQA A-level History examiner marking Question 1 (${s.m} marks, ${s.kind==="interp"?"AO3 interpretations: assess how convincing each extract's argument is using contextual knowledge; no credit for provenance or comparing extracts":"AO2 sources: assess the value of each source for the enquiry using provenance, tone, emphasis and context"}).
+Question: ${s.q}
+${s.items.map(it=>it.label+(it.prov?" ("+it.prov+")":"")+': "'+it.text+'"').join("\n")}
+Student answer: """${txt.slice(0,9000)}"""
+Use AQA's 5-level mark scheme. Reply in UK English, under 260 words:
+**Estimated mark: X/${s.m} (Level N)**
+**Extract/Source by extract/source** one line each on how well it was handled
+**Biggest strengths**
+- 2 bullets
+**To reach the next level**
+- 3 specific bullets`,out,$("kfm"),"🧑‍🏫 Mark again");
+  const m=r&&/Estimated mark:\s*(\d+)\s*\/\s*(\d+)/i.exec(r.text||"");
+  if(m){const p=prog();p.s=p.s||{};const k=s.id+"-full",e=p.s[k]||(p.s[k]={best:0});e.best=Math.max(e.best,+m[1]);e.last=+m[1];markDay();save();out.insertAdjacentHTML("beforeend",`<p class="hint">Saved. Your best full answer is ${e.best}/${s.m}.</p>`)}
+}
+/* maths multi-part */
+function numParse(v){v=String(v).trim().replace(/\s/g,"").replace("−","-").replace("°","");if(/^-?\d+(\.\d+)?\/-?\d+(\.\d+)?$/.test(v)){const[a,b]=v.split("/");return +a/+b}return v===""?NaN:Number(v)}
+function renderMq(){
+  if(mode!=="skills"||!K)return;
+  const s=K.s;K.mres=K.mres||{};K.hints=K.hints||{};K.sols=K.sols||{};
+  let html=`<button class="link" onclick="K=null;skillsList()">← All questions</button><div class="card"><div class="meta"><span class="pill">${s.title}</span><span class="pill g">${s.parts.reduce((a,p)=>a+p.m,0)} marks</span></div><div class="q" style="margin:0">${s.q}</div></div>`;
+  s.parts.forEach((pt,i)=>{
+    if(i>K.part)return;const r=K.mres[i];
+    html+=`<div class="card stepc"><div class="meta"><span class="pill">Part ${i+1} of ${s.parts.length}</span><span class="pill g">${pt.m} mark${pt.m>1?"s":""}</span>${r?(r.ok?'<span class="pill m">✓ Correct</span>':'<span class="pill w">Revealed</span>'):""}</div><div class="q">${pt.p}</div>
+    ${r&&r.ok?"":`<div class="ansrow"><input id="mi${i}" inputmode="decimal" placeholder="Your answer" value="${esc(K["v"+i]||"")}" oninput="K['v${i}']=this.value" onkeydown="if(event.key==='Enter')mCheck(${i})"><button class="btn sm" onclick="mCheck(${i})">Check</button></div><div id="mf${i}"></div>`}
+    ${(K.hints[i]||0)>0?pt.hint.slice(0,K.hints[i]).map(h=>`<div class="hintb">💡 ${h}</div>`).join(""):""}
+    ${K.sols[i]?pt.sol.map(x=>`<div class="step">${x}</div>`).join(""):""}
+    <div class="btns">${(K.hints[i]||0)<pt.hint.length&&!K.sols[i]?`<button class="btn ghost sm" onclick="K.hints[${i}]=(K.hints[${i}]||0)+1;renderMq()">💡 Hint</button>`:""}${!K.sols[i]?`<button class="btn ghost sm" onclick="K.sols[${i}]=1;if(!K.mres[${i}]){K.mres[${i}]={ok:false};K.max+=${pt.m}}renderMq()">Show method</button>`:""}${(r)&&i===K.part&&i+1<s.parts.length?`<button class="btn sm" onclick="K.part++;renderMq()">Next part →</button>`:""}</div></div>`;
+  });
+  const fin=s.parts.every((_,i)=>K.mres[i]);
+  if(fin){if(!K.saved){K.saved=true;kSave()}const pct=Math.round(K.score/K.max*100);
+    html+=`<div class="card" style="text-align:center"><div class="big">${K.score}/${K.max}</div><p class="hint">${pct}% of marks without seeing the method${pct===100?". Exam-ready.":". Try it again tomorrow without hints."}</p>
+    ${AI?`<div style="text-align:left"><p class="hint">Want your method checked? Write out your full working and Claude will mark it like an Edexcel examiner (M and A marks).</p><textarea id="mw" placeholder="Your full working for all parts…"></textarea><div class="btns"><button class="btn" id="mwb" onclick="mWork()">🧑‍🏫 Check my working</button></div><div id="mwo"></div></div>`:""}
+    <div class="btns"><button class="btn ghost" onclick="openSet('${s.id}')">Retry</button><button class="btn ghost" onclick="K=null;skillsList()">More questions</button></div></div>`}
+  $("app").innerHTML=html;
+}
+function mCheck(i){
+  const pt=K.s.parts[i],v=numParse(($("mi"+i)||{}).value||""),f=$("mf"+i);
+  if(isNaN(v)){f.innerHTML='<div class="hintb">Enter a number. Fractions like 4/3 are fine.</div>';return}
+  const tol=pt.tol!=null?pt.tol:0.005,ok=Math.abs(v-pt.ans)<=tol;
+  K.tries=K.tries||{};K.tries[i]=(K.tries[i]||0)+1;
+  if(ok){if(!K.mres[i]){const earned=K.sols[i]?0:(K.hints[i]?Math.max(1,pt.m-K.hints[i]):pt.m);K.mres[i]={ok:true};K.max+=pt.m;K.score+=earned}K.sols[i]=1;renderMq()}
+  else f.innerHTML=`<div class="hintb bad">✗ Not quite (attempt ${K.tries[i]}). Check your working, or take a hint.</div>`;
+}
+function mWork(){
+  const s=K.s,txt=($("mw").value||"").trim(),out=$("mwo");
+  if(txt.length<20){out.innerHTML='<div class="ai">Write out your working first.</div>';return}
+  aiMark(`You are an Edexcel A-level Maths examiner. Check this student's working for the question below. Award M (method) and A (accuracy) marks per part, point out the first error in each part, and note any missing steps an examiner would need to see (e.g. justifying a maximum, changing limits). UK English, under 220 words, using bullet points per part, ending with **Estimated total: X/${s.parts.reduce((a,p)=>a+p.m,0)}**.
+Question: ${strip(s.q)}
+${s.parts.map(p=>strip(p.p)+" ["+p.m+" marks] Correct method: "+p.sol.map(strip).join(" ; ")).join("\n")}
+Student working: """${txt.slice(0,6000)}"""`,out,$("mwb"),"🧑‍🏫 Check again");
+}
+
+loadLocal();go();initCloud();
+</script>
+</body>
+</html>
